@@ -1,0 +1,19 @@
+/*Cambiar color hover tr (modifica bootstrap)*/
+.table-hover tbody tr:hover {
+
+	background-color: rgba(41, 130, 231, 0.10);
+
+}
+
+
+#back {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100vh;
+	background: url('../dist/img/login_fondo.jpg');
+	background-size: cover;
+	overflow: hidden;
+	z-index: -1;
+}
