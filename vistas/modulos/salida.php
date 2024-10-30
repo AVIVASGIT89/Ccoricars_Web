@@ -56,12 +56,12 @@
                         }
 
                   echo '<td>'.$valor["MARCA_MODELO"].'</td>
-                        <td>'.$valor["DESC_SERVICIO"].'</td>
-                        <td>'.number_format($valor["COSTO_SERVICIO"], 2).'</td>
+                        <td>'.$valor["DETALLE_SERVICIO"].'</td>
+                        <td>'.number_format($valor["TOTAL_SERVICIO"], 2).'</td>
                         <td align="center">
                           <div class="btn-group">
                             <button class="btn btn-success" onclick="finalizarServicio('.$valor["ID_SERVICIO"].');"><i class="fas fa-check"></i></button>
-                            <button class="btn btn-warning" onclick="editarServicio('.$valor["ID_SERVICIO"].');"><i class="fas fa-pen"></i></button>
+                            <button class="btn btn-warning" onclick="editarServicio('.$valor["ID_SERVICIO"].');"><i class="fas fa-wrench"></i></button>
                             <button class="btn btn-danger" onclick="anularServicio('.$valor["ID_SERVICIO"].');"><i class="fas fa-times"></i></button>
                           </div>
                       </td>
@@ -86,7 +86,7 @@
 
   <!-- Modal editar servicio-->
   <div class="modal fade" id="modalEditarServicio">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
       <div class="modal-content">
 
       <form rol="form" method="POST">
@@ -103,12 +103,12 @@
             
             <!-- Vehiculo -->
             <div class="input-group mb-3">
-              Vehiculo: &nbsp; <span id="datosVehiculo"></span>
+              <b>Vehiculo:</b> &nbsp; <span id="datosVehiculo"></span>
             </div>
 
             <!-- Ingreso -->
             <div class="input-group mb-3">
-              Ingreso: &nbsp; <span id="datosIngreso"></span>
+              <b>Ingreso:</b> &nbsp; <span id="datosIngreso"></span>
             </div>
 
             <!-- Servicio -->

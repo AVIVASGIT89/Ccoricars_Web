@@ -45,18 +45,19 @@ class ModeloServicio{
         }
 
         $stmt = Conexion::conectar()->prepare("SELECT S.ID_SERVICIO,
-                                                      S.FECHA_INGRESO,
-                                                      S.PLACA_VEHICULO,
-                                                      CONCAT(M.NOMBRE_MARCA,' ', D.NOMBRE_MODELO) MARCA_MODELO,
-                                                      S.COSTO_SERVICIO,
-                                                      S.DESC_SERVICIO,
-                                                      S.ESTADO_SERVICIO
-                                                FROM servicio S
-                                                INNER JOIN marca_vehiculo M ON M.ID_MARCA = S.ID_MARCA_VEHICULO
-                                                INNER JOIN modelo_vehiculo D ON D.ID_MODELO = S.ID_MODELO_VEHICULO
-                                                WHERE S.ESTADO_SERVICIO = 1
-                                                AND S.ESTADO_REGISTRO = 1 $condicion
-                                                ORDER BY S.FECHA_INGRESO DESC");
+                                                            S.FECHA_INGRESO,
+                                                            V.PLACA_VEHICULO,
+                                                            CONCAT(M.NOMBRE_MARCA,' ', D.NOMBRE_MODELO) MARCA_MODELO,
+                                                            S.DETALLE_SERVICIO,
+                                                            S.TOTAL_SERVICIO,
+                                                            S.ESTADO_SERVICIO
+                                                    FROM servicio S
+                                                    INNER JOIN vehiculo V ON S.ID_VEHICULO = V.ID_VEHICULO
+                                                    INNER JOIN marca_vehiculo M ON V.ID_MARCA = M.ID_MARCA
+                                                    INNER JOIN modelo_vehiculo D ON V.ID_MODELO = D.ID_MODELO
+                                                    WHERE S.ESTADO_SERVICIO = 1
+                                                    AND S.ESTADO_REGISTRO = 1 $condicion
+                                                    ORDER BY S.FECHA_INGRESO DESC");
 
         $stmt -> execute();
 
