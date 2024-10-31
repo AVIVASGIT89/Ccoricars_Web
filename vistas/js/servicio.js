@@ -106,7 +106,6 @@ $("#btnRegistrarServicio").click(function(){
 });
 
 
-
 //Finalizar servicio
 function finalizarServicio(idServicio){
 
@@ -227,10 +226,8 @@ function anularServicio(idServicio){
 }
 
 
-//Editar servicio
-function editarServicio(idServicio){
-
-    //alert(idServicio); return;
+//Registro de detalle de servicio
+function registroDetalleServicio(idServicio){
     
     var datos = new FormData();
     datos.append("accion", "editarServicio");
@@ -251,9 +248,7 @@ function editarServicio(idServicio){
             respuesta.forEach(function(row) {                 
                 $("#datosVehiculo").text(row.PLACA_VEHICULO +" - "+ row.MARCA_MODELO);
                 $("#datosIngreso").text(row.FECHA_INGRESO);
-                $("#datosServicio").text(row.DESC_SERVICIO);
-                $("#nuevoCostoServicio").val(row.COSTO_SERVICIO);
-                $("#hIdServicio").val(row.ID_SERVICIO);
+                $("#idServicio").val(row.ID_SERVICIO);
             });
 
             $("#modalEditarServicio").modal("show");
@@ -263,6 +258,183 @@ function editarServicio(idServicio){
     });
 
 }
+
+
+//Agregar producto/servicio
+$("#btnAgregarServicioProducto").click(function(){
+
+    var servicioRepuesto = $("#servicioRepuesto").val();
+    var textMontoBase = $("#montoBase").val();
+    var textUtilidad = $("#utilidad").val();
+
+    if(servicioRepuesto == ""){
+
+        alert("Ingrese un servicio o producto");
+        $("#servicioRepuesto").focus();
+        return;
+
+    }
+
+    var montoBase = parseFloat(textMontoBase).toFixed(2);
+    var utilidad = parseFloat(textUtilidad).toFixed(2);
+    var subTotal = (parseFloat(montoBase) + parseFloat(utilidad)).toFixed(2);
+
+    if(subTotal <= 0){
+
+        alert("El subtotal no puede ser 0");
+        $("#utilidad").focus();
+        return;
+
+    }
+
+    var tbody = $("#tbodyListaProductos");
+
+    tbody.append(
+        '<tr>'+
+            '<td></td>'+
+            '<td>'+servicioRepuesto+'</td>'+
+            '<td align="right">'+montoBase+'</td>'+
+            '<td align="right">'+utilidad+'</td>'+
+            '<td align="right">'+subTotal+'</td>'+
+            '<td align="center">'+
+                '<a href="javascript:" onclick="quitarProducto(event)"><img src="vistas/dist/img/menos.png" alt="Quitar Producto" height="21"/></a>'+
+            '</td>'+
+        '</tr>'
+    );
+
+    $("#servicioRepuesto").val("");
+    $("#montoBase").val("0");
+    $("#utilidad").val("0");
+
+    enumerarItem();
+    calcularTotal();
+    
+    $("#servicioRepuesto").focus();
+    
+});
+
+//Enumerar items de tabla productos
+function enumerarItem(){
+    var i=0;
+
+    $("#tbodyListaProductos tr").each(function() {
+
+        i++;
+
+        $(this).find("td").eq(0).text(i);
+
+    });
+}
+
+//Calcular total
+function calcularTotal(){
+
+    var totalBase = 0;
+    var totalUtilidad = 0;
+    var total = 0;
+
+    $("#tbodyListaProductos tr").each(function() {
+
+        var base = $(this).find("td").eq(2).text();
+        var utilidad = $(this).find("td").eq(3).text();
+        var subtotal = $(this).find("td").eq(4).text();
+
+		if(subtotal != ""){
+			total = total + parseFloat(subtotal);
+            totalBase = totalBase + parseFloat(base);
+            totalUtilidad = totalUtilidad + parseFloat(utilidad);
+		}
+
+    });
+
+    var montoTotalBase = totalBase.toFixed(2);
+    var montoTotalUtilidad = totalUtilidad.toFixed(2);
+    var montoTotalVenta = total.toFixed(2);
+
+    $("#totalBase").text(montoTotalBase);
+    $("#totalUtilidad").text(montoTotalUtilidad);
+    $("#spTotalVenta").text(montoTotalVenta);
+
+}
+
+//Quitar producto
+function quitarProducto(e){
+
+    $(e.target).closest("tr").remove();
+    
+	$("#servicioRepuesto").focus();
+
+    enumerarItem();
+    calcularTotal();
+
+}
+
+
+//Registrar detalle servicio
+$("#btnRegistrarDetalleServicio").click(function(){
+
+    var idServicio = $("#idServicio").val();
+    
+    //Variable para almacenar la lista de productos
+    var listaProductos = [];
+
+    //Obtenemos la lista de productos (detalle)
+    $("#tbodyListaProductos tr").each(function(){
+
+        var servicioProducto = $(this).find("td").eq(1).text();
+        var base = $(this).find("td").eq(2).text();
+		var utilidad = $(this).find("td").eq(3).text();
+
+        listaProductos.push(
+            {
+                'servicioProducto': servicioProducto,
+				'base': base,
+                'utilidad': utilidad
+            }
+        );
+
+    });
+
+    //Definimos toddos los datos del detalle de venta
+    var datosDetalleServicio = {
+        "accion": "registrarDetalleServicio",
+        "idServicio": idServicio,
+        "listaProductos": listaProductos
+    };
+
+    $.ajax({
+        url: "ajax/servicio.ajax.php",
+        method: "POST",
+        data: datosDetalleServicio,
+        dataType: "json",
+        success: function(respuesta){
+
+            console.log("respuesta:", respuesta);
+        
+            if(respuesta == "ok"){
+        
+                Swal.fire({
+                    title: "Detalle de servicio registrado correctamente",
+                    icon: "success",
+                    confirmButtonText: "Ok"
+                }).then((result) => {
+
+                    if (result.isConfirmed) {
+                        window.location = "salida";
+                    }
+
+                })
+
+            }
+
+            
+
+        }
+
+    });
+    
+});
+
 
 //funcion para captura fecha y hora actual
 function fechaHoraActual() {

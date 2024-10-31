@@ -140,7 +140,7 @@
               <div class="form-group row">
                 <label for="kilometraje" class="col-sm-2 col-form-label">Kms:</label>
                 <div class="col-sm-10">
-                  <input type="number" class="form-control" name="kilometraje" id="kilometraje" value="0" placeholder="Kilometraje" required>
+                  <input type="number" class="form-control" name="kilometraje" id="kilometraje" value="0" onclick="this.select();" placeholder="Kilometraje" required>
                 </div>
               </div>
 

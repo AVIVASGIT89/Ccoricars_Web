@@ -6,6 +6,7 @@
 }
 
 
+/*Fondo de login */
 #back {
 	position: absolute;
 	top: 0;
@@ -16,4 +17,28 @@
 	background-size: cover;
 	overflow: hidden;
 	z-index: -1;
+}
+
+
+/* -- tabla  Reg Venta--*/
+.tabla-registro {
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-size: 13px;
+	border: 1px solid #ddd;
+	line-height: 1.42857143;
+    color: #333;
+}
+.tabla-registro th {
+	padding: 5px 10px;
+	color: white;
+	background: #a82424;
+}
+.tabla-registro td {
+	padding: 3px 10px;
+}
+.tabla-registro tr{
+	border: 1px solid #ddd;
+}
+.tabla-registro tr:hover{
+	background-color: rgba(0, 128, 0, 0.10);
 }

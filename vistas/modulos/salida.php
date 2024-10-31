@@ -61,7 +61,7 @@
                         <td align="center">
                           <div class="btn-group">
                             <button class="btn btn-success" onclick="finalizarServicio('.$valor["ID_SERVICIO"].');"><i class="fas fa-check"></i></button>
-                            <button class="btn btn-warning" onclick="editarServicio('.$valor["ID_SERVICIO"].');"><i class="fas fa-wrench"></i></button>
+                            <button class="btn btn-warning" onclick="registroDetalleServicio('.$valor["ID_SERVICIO"].');"><i class="fas fa-wrench"></i></button>
                             <button class="btn btn-danger" onclick="anularServicio('.$valor["ID_SERVICIO"].');"><i class="fas fa-times"></i></button>
                           </div>
                       </td>
@@ -89,8 +89,6 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
 
-      <form rol="form" method="POST">
-
         <div class="modal-header">
           <h4 class="modal-title">Editar servicio</h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -100,29 +98,81 @@
         <div class="modal-body">
           
           <div class="card-body">
-            
-            <!-- Vehiculo -->
-            <div class="input-group mb-3">
-              <b>Vehiculo:</b> &nbsp; <span id="datosVehiculo"></span>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+
+                  <b>Vehiculo:</b> &nbsp; <span id="datosVehiculo"></span>
+                    
+                </div>
+                <div class="col-md-6">
+
+                  <b>Ingreso:</b> &nbsp; <span id="datosIngreso"></span>
+
+                </div>
             </div>
 
-            <!-- Ingreso -->
-            <div class="input-group mb-3">
-              <b>Ingreso:</b> &nbsp; <span id="datosIngreso"></span>
-            </div>
+            <!-- <br> -->
 
-            <!-- Servicio -->
-            <div class="input-group mb-3">
-              Servicio: &nbsp; <span id="datosServicio"></span>
-            </div>
-
-            <!-- Costo servicio -->
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+            <div class="form-group row">
+              <label for="servicioRepuesto" class="col-sm-2 col-form-label">Servicio:</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="servicioRepuesto" id="servicioRepuesto" placeholder="Servicio / Repuesto" required>
               </div>
-              <input type="number" name="nuevoCostoServicio" id="nuevoCostoServicio" onclick="this.select();" class="form-control" placeholder="Costo servicio" required>
-              <input type="hidden" name="hIdServicio" id="hIdServicio">
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+
+                    <div class="form-group">
+                        <label for="nombre">Precio base:</label>
+                        <input type="number" class="form-control" name="montoBase" id="montoBase" value="0" onclick="this.select();" placeholder="Monto base" required>
+                    </div>
+                    
+                </div>
+                <div class="col-md-6">
+
+                    <div class="form-group">
+                        <label for="direccion">Utilidad:</label>
+                        <input type="number" class="form-control" name="utilidad" id="utilidad" value="0" onclick="this.select();" placeholder="Utilidad" required>
+                    </div>
+
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-block btn-primary" id="btnAgregarServicioProducto">Agregar</button>
+
+            <br>
+
+            <div class="d-flex align-items-center justify-content-center">
+              <table class="tabla-registro">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Producto / servicio</th>
+                    <th>Base</th>
+                    <th>Utilidad</th>
+                    <th>Sub total</th>
+                    <th>Opcion</th>
+                  </tr>
+                </thead>
+                <tbody id="tbodyListaProductos">
+                <!-- 
+                  Aqui se carga la lista de productos a traves de Ajax
+                -->
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td colspan="4" align="right"><h3>Total Orden: S/.</h3></td>
+                    <td><h3><span id="spTotalVenta">0.00</span></h3></td>
+                    <td>
+                      <input type="hidden" id="totalBase" value=""/>
+                      <input type="hidden" id="totalUtilidad" value=""/>
+                      <input type="hidden" id="idServicio" value=""/>
+                    </td>
+                  </tr>
+                </tfoot>
+              </table>
             </div>
             
           </div>
@@ -130,17 +180,8 @@
         </div>
         <div class="modal-footer justify-content-between">
           <button type="button" class="btn btn-default" data-dismiss="modal">Salir</button>
-          <button type="submit" class="btn btn-primary">Actualizar</button>
+          <button type="button" class="btn btn-success" id="btnRegistrarDetalleServicio">Registrar</button>
         </div>
-
-        <?php
-        
-          $editarServicio = new ControladorServicio();
-          $editarServicio -> ctrEditarServicio();
-
-        ?>
-
-      </form>
 
       </div>
       <!-- /.modal-content -->

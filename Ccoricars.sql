@@ -2,7 +2,7 @@
 -- Host:                         127.0.0.1
 -- Versión del servidor:         10.4.32-MariaDB - mariadb.org binary distribution
 -- SO del servidor:              Win64
--- HeidiSQL Versión:             12.8.0.6908
+-- HeidiSQL Versión:             12.6.0.6765
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -15,11 +15,11 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 
--- Volcando estructura de base de datos para brillocar
+-- Volcando estructura de base de datos para ccoricars
 CREATE DATABASE IF NOT EXISTS `ccoricars` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
 USE `ccoricars`;
 
--- Volcando estructura para función brillocar.INITCAP
+-- Volcando estructura para función ccoricars.INITCAP
 DELIMITER //
 CREATE FUNCTION `INITCAP`(x char(200)) RETURNS char(200) CHARSET utf8 COLLATE utf8_general_ci
 BEGIN
@@ -39,7 +39,7 @@ RETURN LTRIM(CONCAT(STR, ' ', CONCAT(UPPER(SUBSTRING(x,1,1)),LOWER(SUBSTRING(x,2
 END//
 DELIMITER ;
 
--- Volcando estructura para tabla brillocar.marca_vehiculo
+-- Volcando estructura para tabla ccoricars.marca_vehiculo
 CREATE TABLE IF NOT EXISTS `marca_vehiculo` (
   `ID_MARCA` int(11) NOT NULL AUTO_INCREMENT,
   `NOMBRE_MARCA` varchar(200) NOT NULL,
@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `marca_vehiculo` (
   PRIMARY KEY (`ID_MARCA`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Volcando datos para la tabla brillocar.marca_vehiculo: ~5 rows (aproximadamente)
+-- Volcando datos para la tabla ccoricars.marca_vehiculo: ~5 rows (aproximadamente)
 INSERT INTO `marca_vehiculo` (`ID_MARCA`, `NOMBRE_MARCA`, `USUARIO_REGISTRO`, `ESTADO_REGISTRO`) VALUES
 	(1, 'Hyundai', 'admin', 1),
 	(2, 'Toyota', 'admin', 1),
@@ -56,7 +56,7 @@ INSERT INTO `marca_vehiculo` (`ID_MARCA`, `NOMBRE_MARCA`, `USUARIO_REGISTRO`, `E
 	(4, 'Renault', 'admin', 1),
 	(5, 'Mazda', 'admin', 1);
 
--- Volcando estructura para tabla brillocar.modelo_vehiculo
+-- Volcando estructura para tabla ccoricars.modelo_vehiculo
 CREATE TABLE IF NOT EXISTS `modelo_vehiculo` (
   `ID_MODELO` int(11) NOT NULL AUTO_INCREMENT,
   `ID_MARCA` int(11) NOT NULL,
@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS `modelo_vehiculo` (
   CONSTRAINT `FK_modelo_vehiculo_marca_vehiculo` FOREIGN KEY (`ID_MARCA`) REFERENCES `marca_vehiculo` (`ID_MARCA`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Volcando datos para la tabla brillocar.modelo_vehiculo: ~11 rows (aproximadamente)
+-- Volcando datos para la tabla ccoricars.modelo_vehiculo: ~11 rows (aproximadamente)
 INSERT INTO `modelo_vehiculo` (`ID_MODELO`, `ID_MARCA`, `NOMBRE_MODELO`, `USUARIO_REGISTRO`, `ESTADO_REGISTRO`) VALUES
 	(1, 1, 'Tucson', 'admin', 1),
 	(2, 1, 'Elantra', 'admin', 1),
@@ -82,7 +82,7 @@ INSERT INTO `modelo_vehiculo` (`ID_MODELO`, `ID_MARCA`, `NOMBRE_MODELO`, `USUARI
 	(10, 2, 'Rush', 'admin', 1),
 	(11, 4, 'Duster', 'admin', 1);
 
--- Volcando estructura para tabla brillocar.servicio
+-- Volcando estructura para tabla ccoricars.servicio
 CREATE TABLE IF NOT EXISTS `servicio` (
   `ID_SERVICIO` int(11) NOT NULL AUTO_INCREMENT,
   `ID_VEHICULO` int(11) NOT NULL,
@@ -92,41 +92,44 @@ CREATE TABLE IF NOT EXISTS `servicio` (
   `DETALLE_SERVICIO` text DEFAULT NULL,
   `USUARIO_INGRESO` varchar(50) NOT NULL,
   `USUARIO_SALIDA` varchar(50) DEFAULT NULL,
-  `TOTAL_PRECIO_COSTO` decimal(20,2) NOT NULL DEFAULT 0.00,
-  `TOTAL_PRECIO_VENTA` decimal(20,2) NOT NULL DEFAULT 0.00,
+  `TOTAL_PRECIO_BASE` decimal(20,2) NOT NULL DEFAULT 0.00,
+  `TOTAL_UTILIDAD` decimal(20,2) NOT NULL DEFAULT 0.00,
   `TOTAL_SERVICIO` decimal(20,2) NOT NULL DEFAULT 0.00,
   `ESTADO_SERVICIO` int(11) NOT NULL DEFAULT 1 COMMENT '1 = Pendiente; 2 = Finalizado',
+  `FECHA_REGISTRO` datetime DEFAULT NULL,
   `ESTADO_REGISTRO` int(11) NOT NULL DEFAULT 1,
   PRIMARY KEY (`ID_SERVICIO`),
   KEY `FK_servicio_vehiculo` (`ID_VEHICULO`),
   CONSTRAINT `FK_servicio_vehiculo` FOREIGN KEY (`ID_VEHICULO`) REFERENCES `vehiculo` (`ID_VEHICULO`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Volcando datos para la tabla brillocar.servicio: ~5 rows (aproximadamente)
-INSERT INTO `servicio` (`ID_SERVICIO`, `ID_VEHICULO`, `FECHA_INGRESO`, `KM_INGRESO`, `FECHA_SALIDA`, `DETALLE_SERVICIO`, `USUARIO_INGRESO`, `USUARIO_SALIDA`, `TOTAL_PRECIO_COSTO`, `TOTAL_PRECIO_VENTA`, `TOTAL_SERVICIO`, `ESTADO_SERVICIO`, `ESTADO_REGISTRO`) VALUES
-	(1, 1, '2024-10-28 12:44:33', 12566, NULL, 'Mantenimiento', 'ADMIN', NULL, 0.00, 0.00, 0.00, 1, 1),
-	(2, 3, '2024-10-28 12:45:13', 65983, NULL, 'Reparacion', 'ADMIN', NULL, 0.00, 0.00, 0.00, 1, 1),
-	(3, 2, '2024-10-28 12:56:19', 9635, NULL, 'Otro', 'ADMIN', NULL, 100.00, 120.00, 120.00, 2, 1),
-	(4, 1, '2024-10-29 11:28:00', 2015, NULL, NULL, 'admin', NULL, 0.00, 0.00, 0.00, 1, 1),
-	(5, 2, '2024-10-29 11:32:00', 2563, NULL, 'preventivo', 'admin', NULL, 0.00, 0.00, 0.00, 1, 1),
-	(6, 1, '2024-10-29 12:14:00', 36982, NULL, 'servicio', 'admin', NULL, 0.00, 0.00, 0.00, 1, 1);
+-- Volcando datos para la tabla ccoricars.servicio: ~8 rows (aproximadamente)
+INSERT INTO `servicio` (`ID_SERVICIO`, `ID_VEHICULO`, `FECHA_INGRESO`, `KM_INGRESO`, `FECHA_SALIDA`, `DETALLE_SERVICIO`, `USUARIO_INGRESO`, `USUARIO_SALIDA`, `TOTAL_PRECIO_BASE`, `TOTAL_UTILIDAD`, `TOTAL_SERVICIO`, `ESTADO_SERVICIO`, `FECHA_REGISTRO`, `ESTADO_REGISTRO`) VALUES
+	(1, 1, '2024-10-28 12:44:33', 12566, NULL, 'Mantenimiento', 'ADMIN', NULL, 0.00, 0.00, 0.00, 1, NULL, 1),
+	(2, 3, '2024-10-28 12:45:13', 65983, NULL, 'Reparacion', 'ADMIN', NULL, 0.00, 0.00, 0.00, 1, NULL, 1),
+	(3, 2, '2024-10-28 12:56:19', 9635, NULL, 'Otro', 'ADMIN', NULL, 100.00, 120.00, 120.00, 2, NULL, 1),
+	(4, 1, '2024-10-29 11:28:00', 2015, NULL, NULL, 'admin', NULL, 0.00, 0.00, 0.00, 1, NULL, 1),
+	(5, 2, '2024-10-29 11:32:00', 2563, NULL, 'preventivo', 'admin', NULL, 0.00, 0.00, 0.00, 1, NULL, 1),
+	(6, 1, '2024-10-29 12:14:00', 36982, NULL, 'servicio', 'admin', NULL, 0.00, 0.00, 0.00, 1, NULL, 1),
+	(7, 1, '2024-10-31 14:21:00', 5623, NULL, 'detalle', 'admin', NULL, 0.00, 0.00, 0.00, 1, NULL, 1),
+	(9, 2, '2024-10-29 15:30:00', 0, NULL, '', 'admin', NULL, 0.00, 0.00, 0.00, 1, '2024-10-31 15:30:16', 1);
 
--- Volcando estructura para tabla brillocar.servicio_detalle
+-- Volcando estructura para tabla ccoricars.servicio_detalle
 CREATE TABLE IF NOT EXISTS `servicio_detalle` (
-  `ID_DETALLE_SERVICIO` int(11) NOT NULL,
+  `ID_DETALLE_SERVICIO` int(11) NOT NULL AUTO_INCREMENT,
   `ID_SERVICIO` int(11) NOT NULL,
   `ITEM` text NOT NULL,
-  `PRECIO_COSTO` double(20,2) NOT NULL DEFAULT 0.00,
-  `PRECIO_VENTA` double(20,2) NOT NULL DEFAULT 0.00,
+  `PRECIO_BASE` double(20,2) NOT NULL DEFAULT 0.00,
+  `UTILIDAD` double(20,2) NOT NULL DEFAULT 0.00,
   `ESTADO_REGISTRO` int(11) NOT NULL DEFAULT 1,
   PRIMARY KEY (`ID_DETALLE_SERVICIO`),
   KEY `FK_servicio_detalle_servicio` (`ID_SERVICIO`),
   CONSTRAINT `FK_servicio_detalle_servicio` FOREIGN KEY (`ID_SERVICIO`) REFERENCES `servicio` (`ID_SERVICIO`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Volcando datos para la tabla brillocar.servicio_detalle: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla ccoricars.servicio_detalle: ~0 rows (aproximadamente)
 
--- Volcando estructura para tabla brillocar.usuario
+-- Volcando estructura para tabla ccoricars.usuario
 CREATE TABLE IF NOT EXISTS `usuario` (
   `ID_USUARIO` int(11) NOT NULL AUTO_INCREMENT,
   `USUARIO` varchar(50) NOT NULL,
@@ -137,11 +140,11 @@ CREATE TABLE IF NOT EXISTS `usuario` (
   UNIQUE KEY `USUARIO` (`USUARIO`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Volcando datos para la tabla brillocar.usuario: ~1 rows (aproximadamente)
+-- Volcando datos para la tabla ccoricars.usuario: ~0 rows (aproximadamente)
 INSERT INTO `usuario` (`ID_USUARIO`, `USUARIO`, `CLAVE`, `NOMBRE_USUARIO`, `ESTADO_REGISTRO`) VALUES
 	(1, 'admin', 'admin', 'Administrador', 1);
 
--- Volcando estructura para tabla brillocar.vehiculo
+-- Volcando estructura para tabla ccoricars.vehiculo
 CREATE TABLE IF NOT EXISTS `vehiculo` (
   `ID_VEHICULO` int(11) NOT NULL AUTO_INCREMENT,
   `PLACA_VEHICULO` varchar(20) NOT NULL,
@@ -160,7 +163,7 @@ CREATE TABLE IF NOT EXISTS `vehiculo` (
   CONSTRAINT `FK_vehiculo_modelo_vehiculo` FOREIGN KEY (`ID_MODELO`) REFERENCES `modelo_vehiculo` (`ID_MODELO`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Volcando datos para la tabla brillocar.vehiculo: ~5 rows (aproximadamente)
+-- Volcando datos para la tabla ccoricars.vehiculo: ~5 rows (aproximadamente)
 INSERT INTO `vehiculo` (`ID_VEHICULO`, `PLACA_VEHICULO`, `ID_MARCA`, `ID_MODELO`, `ANIO_FABRICACION`, `RESPONSABLE`, `FECHA_REGISTRO`, `USUARIO_REGISTRO`, `ESTADO_REGISTRO`) VALUES
 	(1, 'ABC123', 1, 2, 2017, 'Alexander Vivas', '2024-10-28 10:50:37', 'Admin', 1),
 	(2, 'ERF653', 2, 9, 2019, NULL, '2024-10-28 10:50:52', 'Admin', 1),

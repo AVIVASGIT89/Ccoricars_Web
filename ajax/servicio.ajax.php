@@ -18,7 +18,29 @@ if($accion == "registrarServicio"){
     echo json_encode($respuesta);
 
 }
-else 
+else
+if($accion == "registrarDetalleServicio"){
+
+    $idServicio = $_POST["idServicio"];
+    $listaProductos = $_POST["listaProductos"];
+
+    foreach($listaProductos as $key => $value){
+
+        $datosDetalleServicio = array(
+                                "idServicio" => $idServicio,
+                                "item" => $value["servicioProducto"],
+                                "precioBase" => $value["base"],
+                                "utilidad" => $value["utilidad"]
+                            );
+
+        $registroDetalleServicio = ModeloServicio::mdlRegistrarDetalleServicio($datosDetalleServicio);
+        
+    }
+
+    return "ok";
+
+}
+else
 if($accion == "finalizarServicio"){
 
     $idServicio = $_POST["idServicio"];

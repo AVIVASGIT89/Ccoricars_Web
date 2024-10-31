@@ -77,11 +77,13 @@ class ModeloServicio{
                                                                      FECHA_INGRESO,
                                                                      KM_INGRESO,
                                                                      DETALLE_SERVICIO,
+                                                                     FECHA_REGISTRO,
                                                                      USUARIO_INGRESO)
                                                              VALUES(:ID_VEHICULO,
                                                                     :FECHA_INGRESO,
                                                                     :KM_INGRESO,
-                                                                    :DETALLE_SERVICIO, 
+                                                                    :DETALLE_SERVICIO,
+                                                                    NOW(),
                                                                     :USUARIO_INGRESO)");
 
         $stmt -> bindParam(":ID_VEHICULO", $datos["idVehiculo"], PDO::PARAM_STR);
@@ -89,6 +91,40 @@ class ModeloServicio{
         $stmt -> bindParam(":KM_INGRESO", $datos["kilometraje"], PDO::PARAM_STR);
         $stmt -> bindParam(":DETALLE_SERVICIO", $datos["servicio"], PDO::PARAM_STR);
         $stmt -> bindParam(":USUARIO_INGRESO", $_SESSION["sUsuario"], PDO::PARAM_STR);
+
+        if($stmt->execute()){
+
+            return "ok";
+
+        }else{
+
+            return "error";
+
+        }
+
+        $stmt = null;
+
+    }
+
+
+    //Registrar detalle servicio
+    static public function mdlRegistrarDetalleServicio($datos){
+
+        session_start();
+
+        $stmt = Conexion::conectar()->prepare("INSERT INTO servicio_detalle (ID_SERVICIO,
+                                                                     ITEM,
+                                                                     PRECIO_BASE,
+                                                                     UTILIDAD)
+                                                             VALUES(:ID_SERVICIO,
+                                                                    :ITEM,
+                                                                    :PRECIO_BASE,
+                                                                    :UTILIDAD)");
+
+        $stmt -> bindParam(":ID_SERVICIO", $datos["idServicio"], PDO::PARAM_STR);
+        $stmt -> bindParam(":ITEM", $datos["item"], PDO::PARAM_STR);
+        $stmt -> bindParam(":PRECIO_BASE", $datos["precioBase"], PDO::PARAM_STR);
+        $stmt -> bindParam(":UTILIDAD", $datos["utilidad"], PDO::PARAM_STR);
 
         if($stmt->execute()){
 
