@@ -24,6 +24,7 @@ function buscarVehiculoPlaca(){
 
                 alert('Vehiculo no encontrado');
                 $("#placaVehiculo").focus();
+                $("#placaVehiculo").select();
                 return;
 
             }
@@ -228,6 +229,8 @@ function anularServicio(idServicio){
 
 //Registro de detalle de servicio
 function registroDetalleServicio(idServicio){
+
+    $("#btnRegistrarDetalleServicio").prop('disabled', true);
     
     var datos = new FormData();
     datos.append("accion", "editarServicio");
@@ -245,11 +248,81 @@ function registroDetalleServicio(idServicio){
 
             //console.log("respuesta:", respuesta);
 
-            respuesta.forEach(function(row) {                 
-                $("#datosVehiculo").text(row.PLACA_VEHICULO +" - "+ row.MARCA_MODELO);
+            var items;
+
+            respuesta.forEach(function(row) {
+                items = row.ITEMS;
+                $("#spPlaca").text(row.PLACA_VEHICULO);
+                $("#datosVehiculo").text(row.MARCA_MODELO);
                 $("#datosIngreso").text(row.FECHA_INGRESO);
+                $("#spServicio").text(row.DETALLE_SERVICIO);
                 $("#idServicio").val(row.ID_SERVICIO);
             });
+
+            var tbody = $("#tbodyListaProductos");
+
+            tbody.empty();
+
+            if(items == "1"){
+
+                mostrarItemsServicio(idServicio);
+
+            }else{
+
+                $("#spTotalServicio").text("0.00");
+
+                $("#modalEditarServicio").modal("show");
+
+            }
+
+        }
+
+    });
+
+}
+
+//Mostrar productos ya registrados del servicio
+function mostrarItemsServicio(idServicio){
+
+    var datos = new FormData();
+    datos.append("accion", "mostrarDetalleServicio");
+    datos.append("idServicio", idServicio);
+
+    $.ajax({
+        url: "ajax/servicio.ajax.php",
+        method: "POST",
+        data: datos,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+        success: function(respuesta){
+
+            //console.log("respuesta:", respuesta);
+
+            var tbody = $("#tbodyListaProductos");
+
+            tbody.empty();
+
+            respuesta.forEach(function(servicio) {
+
+                tbody.append(
+                    '<tr>'+
+                        '<td></td>'+
+                        '<td>'+servicio.ITEM+'</td>'+
+                        '<td align="right">'+(servicio.PRECIO_BASE).toFixed(2)+'</td>'+
+                        '<td align="right">'+(servicio.UTILIDAD).toFixed(2)+'</td>'+
+                        '<td align="right">'+(servicio.SUBTOTAL).toFixed(2)+'</td>'+
+                        '<td align="center">'+
+                            '<a href="javascript:" onclick="quitarProducto(event)"><img src="vistas/dist/img/menos.png" alt="Quitar Producto" height="21"/></a>'+
+                        '</td>'+
+                    '</tr>'
+                );
+
+            });
+
+            enumerarItem();
+            calcularTotal();
 
             $("#modalEditarServicio").modal("show");
 
@@ -286,6 +359,8 @@ $("#btnAgregarServicioProducto").click(function(){
         return;
 
     }
+
+    $("#btnRegistrarDetalleServicio").prop('disabled', false);
 
     var tbody = $("#tbodyListaProductos");
 
@@ -351,9 +426,9 @@ function calcularTotal(){
     var montoTotalUtilidad = totalUtilidad.toFixed(2);
     var montoTotalVenta = total.toFixed(2);
 
-    $("#totalBase").text(montoTotalBase);
-    $("#totalUtilidad").text(montoTotalUtilidad);
-    $("#spTotalVenta").text(montoTotalVenta);
+    $("#totalBase").val(montoTotalBase);
+    $("#totalUtilidad").val(montoTotalUtilidad);
+    $("#spTotalServicio").text(montoTotalVenta);
 
 }
 
@@ -363,6 +438,8 @@ function quitarProducto(e){
     $(e.target).closest("tr").remove();
     
 	$("#servicioRepuesto").focus();
+
+    $("#btnRegistrarDetalleServicio").prop('disabled', false);
 
     enumerarItem();
     calcularTotal();
@@ -374,6 +451,18 @@ function quitarProducto(e){
 $("#btnRegistrarDetalleServicio").click(function(){
 
     var idServicio = $("#idServicio").val();
+    var totalBase = $("#totalBase").val();
+    var totalUtilidad = $("#totalUtilidad").val();
+    var totalServicio = $("#spTotalServicio").text();
+
+    if(parseInt(totalServicio) <= 0){
+
+        alert("Ingrese un repuesto o servicio");
+        return;
+
+    }
+
+    $("#btnRegistrarDetalleServicio").prop('disabled', true);
     
     //Variable para almacenar la lista de productos
     var listaProductos = [];
@@ -384,12 +473,14 @@ $("#btnRegistrarDetalleServicio").click(function(){
         var servicioProducto = $(this).find("td").eq(1).text();
         var base = $(this).find("td").eq(2).text();
 		var utilidad = $(this).find("td").eq(3).text();
+        var subTotal = $(this).find("td").eq(4).text();
 
         listaProductos.push(
             {
                 'servicioProducto': servicioProducto,
 				'base': base,
-                'utilidad': utilidad
+                'utilidad': utilidad,
+                'subTotal': subTotal
             }
         );
 
@@ -399,6 +490,9 @@ $("#btnRegistrarDetalleServicio").click(function(){
     var datosDetalleServicio = {
         "accion": "registrarDetalleServicio",
         "idServicio": idServicio,
+        "totalBase": totalBase,
+        "totalUtilidad": totalUtilidad,
+        "totalServicio": totalServicio,
         "listaProductos": listaProductos
     };
 

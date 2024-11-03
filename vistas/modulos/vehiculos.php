@@ -31,6 +31,7 @@
                 <th>Responsable</th>
                 <th>Fecha registro</th>
                 <th>Usuario reg.</th>
+                <th>Opcion</th>
               </tr>
             </thead>
             <tbody>
@@ -51,6 +52,11 @@
                         <td>'.$valor["RESPONSABLE"].'</td>
                         <td>'.$valor["FECHA_REGISTRO"].'</td>
                         <td>'.$valor["USUARIO_REGISTRO"].'</td>
+                        <td align="center">
+                          <div class="btn-group">
+                            <button class="btn btn-warning editarVehiculo" idVehiculo="'.$valor["ID_VEHICULO"].'" title="Editar"><i class="fas fa-pen"></i></button>
+                          </div>
+                        </td>
                       </tr>';
 
               }
@@ -88,11 +94,12 @@
           <div class="card-body">
             
             <!-- Placa vehiculo -->
+            <span style="color: red;" id="spExistePlaca"></span>
             <div class="input-group mb-3">
               <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fas fa-id-card"></i></span>
               </div>
-              <input type="text" name="placaVehiculo" onkeypress="return numletras(event);" class="form-control" placeholder="Ingrese placa" required>
+              <input type="text" name="nuevoPlacaVehiculo" id="nuevoPlacaVehiculo" onkeypress="return numletras(event);" class="form-control" placeholder="Ingrese placa" required>
             </div>
 
             <!-- Marca Vehiculo -->
@@ -133,7 +140,7 @@
               <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fas fa-hammer"></i></span>
               </div>
-              <input type="text" name="anioFabricacion" class="form-control" placeholder="Año fabricacion" required>
+              <input type="number" name="anioFabricacion" class="form-control" placeholder="Año fabricacion" required>
             </div>
 
             <!-- Responsable -->
@@ -141,7 +148,7 @@
               <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fas fa-user"></i></span>
               </div>
-              <input type="text" name="responsable" class="form-control" placeholder="Nombre responsable">
+              <input type="text" name="responsable" class="form-control" placeholder="Nombre responsable" required>
             </div>
             
           </div>
@@ -149,7 +156,7 @@
         </div>
         <div class="modal-footer justify-content-between">
           <button type="button" class="btn btn-default" data-dismiss="modal">Salir</button>
-          <button type="submit" class="btn btn-primary">Registrar</button>
+          <button type="submit" class="btn btn-success" id="btnRegistrarVehiculo">Registrar</button>
         </div>
 
         <?php

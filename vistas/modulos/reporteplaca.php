@@ -1,20 +1,19 @@
   <?php
-  $reporteGeneral;
+  
+  $reportePlaca;
 
-  $totalServicios = 0;
-  $totalCostoServicios = 0;
+  $placaVechiculo = "";
 
-  if(isset($_POST["fechaDesde"])){
+  if(isset($_POST["placaVehiculo"])){
 
-    $fechaDesde = $_POST["fechaDesde"];
-    $fechaHasta = $_POST["fechaHasta"];
+    $placaVechiculo = $_POST["placaVehiculo"];
 
   }else{
 
-    $fechaDesde = date("Y-m-d");
-    $fechaHasta = date("Y-m-d");
+    $placaVechiculo = "";
 
   }
+
   ?>
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -41,19 +40,7 @@
 
               <div class="col-xs-12 col-sm-2 mb-1">
                 <div class="input-group align-items-center">
-                  Desde: <input type="date" name="fechaDesde" class="form-control" value="<?php echo $fechaDesde?>">
-                </div>
-              </div>
-
-              <div class="col-xs-12 col-sm-2 mb-1">
-                <div class="input-group align-items-center">
-                  Hasta: <input type="date" name="fechaHasta" class="form-control" value="<?php echo $fechaHasta?>">
-                </div>
-              </div>
-
-              <div class="col-xs-12 col-sm-2 mb-1">
-                <div class="input-group align-items-center">
-                  Placa: <input type="text" name="placaVehiculo" class="form-control" required>
+                  Placa: <input type="text" name="placaVehiculo" onkeypress="return numletras(event);" value="<?php echo $placaVechiculo;?>" class="form-control" required>
                 </div>
               </div>
 
@@ -65,56 +52,59 @@
           </form>
         </div>
         <div class="card-body">
-          <table class="table table-bordered table-striped table-hover" id="example1">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Fecha ingreso</th>
-                <th>Placa</th>
-                <th>Estado</th>
-                <th>Marca - Modelo</th>
-                <th>Servicio</th>
-                <th>Costo $</th>
-                <th>Fecha salida</th>
-              </tr>
-            </thead>
-            <tbody>
+        <table class="table table-sm table-bordered table-striped table-hover" id="example1">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Fecha ingreso</th>
+              <th>Placa</th>
+              <th>Estado</th>
+              <th>Marca - Modelo</th>
+              <th>Servicio</th>
+              <th>Total S/.</th>
+              <th>Fecha salida</th>
+              <th>Detalle</th>
+            </tr>
+          </thead>
+          <tbody>
 
-            <?php
+          <?php
 
-              $reporteGeneral = ControladorServicio::ctrReportePlaca();
+            $reportePlaca = ControladorServicio::ctrReportePlaca();
 
-              //var_dump($reporteGeneral);
+            //var_dump($reportePlaca);
 
-              if($reporteGeneral != null){
+            if($reportePlaca != null){
 
-                $n = 0;
+              $n = 0;
 
-                foreach($reporteGeneral as $key => $valor){
+              foreach($reportePlaca as $key => $valor){
 
-                  $n++;
+                $n++;
 
-                  $costoServicio = $valor["COSTO_SERVICIO"];
-                  $totalCostoServicios = $totalCostoServicios + $costoServicio;
+                echo '<tr>
+                        <td>'.$n.'</td>
+                        <td>'.$valor["FECHA_INGRESO"].'</td>
+                        <td>'.$valor["PLACA_VEHICULO"].'</td>';
+                        
+                        if($valor["ESTADO_SERVICIO"] == "1"){
 
-                  echo '<tr>
-                          <td>'.$n.'</td>
-                          <td>'.$valor["FECHA_INGRESO"].'</td>
-                          <td>'.$valor["PLACA_VEHICULO"].'</td>';
-                          
-                          if($valor["ESTADO_SERVICIO"] == "1"){
-  
-                            echo '<td><span class="badge badge-warning">Pendiente</span></td>';
-  
-                          }else{
-                            echo '<td><span class="badge badge-success">Finalizado</span></td>';
-                          }
-  
-                    echo '<td>'.$valor["MARCA_MODELO"].'</td>
-                          <td>'.$valor["DESC_SERVICIO"].'</td>
-                          <td>'.number_format($valor["COSTO_SERVICIO"], 2).'</td>
-                          <td>'.$valor["FECHA_SALIDA"].'</td>
-                        </tr>';
+                          echo '<td align="center"><span class="badge badge-warning">Pendiente</span></td>';
+
+                        }else{
+                          echo '<td align="center"><span class="badge badge-success">Finalizado</span></td>';
+                        }
+
+                  echo '<td>'.$valor["MARCA_MODELO"].'</td>
+                        <td>'.$valor["DETALLE_SERVICIO"].'</td>
+                        <td>'.number_format($valor["TOTAL_SERVICIO"], 2).'</td>
+                        <td>'.$valor["FECHA_SALIDA"].'</td>
+                        <td align="center">
+                        <div class="btn-group">
+                          <button class="btn btn-info detalleServicio" idServicio="'.$valor["ID_SERVICIO"].'" title="Detalle servicio"><i class="fas fa-eye"></i></button>
+                        </div>
+                      </td>
+                      </tr>';
   
                 }
 
@@ -123,12 +113,12 @@
               }
             
             ?>
-            </tbody>
-          </table>
+          </tbody>
+        </table>
           <?php
-          if($reporteGeneral != null){
+          if($reportePlaca != null){
           ?>
-          <div><b>Total servicios:</b> <?php echo $n?>, <b>Total costo:</b> $ <?php echo number_format($totalCostoServicios,2)?></div>
+          <div><b>Total servicios:</b> <?php echo $n?>
           <?php
           }
           ?>
@@ -141,3 +131,45 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
+
+
+
+  <!-- Modal detalle servicio -->
+  <div class="modal fade" id="modal-servicio-detalle">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Detalle servicio</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          
+          <table class="table table-sm table-bordered table-striped table-hover">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Repuesto / servicio</th>
+                <th>Precio base</th>
+                <th>Utilidad</th>
+                <th>Subtotal</th>
+              </tr>
+            </thead>
+            
+            <tbody id="tbodyDetalleServicio">
+            <!-- 
+              Aqui se carga la lista de productos a traves de Ajax
+            -->
+            </tbody>
+          </table>
+
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>

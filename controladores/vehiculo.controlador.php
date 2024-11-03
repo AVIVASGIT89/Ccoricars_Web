@@ -37,7 +37,7 @@ class ControladorVehiculo{
                                 confirmButtonText: "Ok"
                             }).then((result) => {
                                 if (result.isConfirmed) {
-                                    window.location = "vehiculo";
+                                    window.location = "vehiculos";
                                 }
                             })
 

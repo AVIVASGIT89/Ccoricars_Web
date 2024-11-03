@@ -104,11 +104,9 @@ class ControladorServicio{
 
         if(isset($_POST["placaVehiculo"])){
 
-            $fechaDesde = $_POST["fechaDesde"];
-            $fechaHasta= $_POST["fechaHasta"];
             $placa= $_POST["placaVehiculo"];
 
-            $respuesta = ModeloServicio::mdlReportePlaca($fechaDesde, $fechaHasta, $placa);
+            $respuesta = ModeloServicio::mdlReportePlaca($placa);
 
             return $respuesta;
 

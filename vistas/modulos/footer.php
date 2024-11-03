@@ -1,3 +1,3 @@
   <footer class="main-footer">
-    <strong>Copyright &copy; 2023 <a href="#">Brillo Car</a>. </strong> Todos los derechos reservados
+    <strong>Copyright &copy; 2024 <a href="#">Ccoricars</a>. </strong> Todos los derechos reservados
   </footer>

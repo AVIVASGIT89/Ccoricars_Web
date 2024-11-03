@@ -20,7 +20,7 @@
           <h3 class="card-title">Seleccione servicio a finalizar</h3>
         </div>
         <div class="card-body">
-          <table class="table table-bordered table-striped table-hover dataTable">
+          <table class="table table-sm table-bordered table-striped table-hover dataTable">
             <thead>
               <tr>
                 <th>#</th>
@@ -64,7 +64,7 @@
                             <button class="btn btn-warning" onclick="registroDetalleServicio('.$valor["ID_SERVICIO"].');"><i class="fas fa-wrench"></i></button>
                             <button class="btn btn-danger" onclick="anularServicio('.$valor["ID_SERVICIO"].');"><i class="fas fa-times"></i></button>
                           </div>
-                      </td>
+                        </td>
                       </tr>';
 
               }
@@ -90,7 +90,7 @@
       <div class="modal-content">
 
         <div class="modal-header">
-          <h4 class="modal-title">Editar servicio</h4>
+          <h4 class="modal-title">Añadir servicio</h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -99,10 +99,14 @@
           
           <div class="card-body">
 
-            <div class="row mb-3">
+            <div class="text-center">
+              <h3><b><span id="spPlaca">-</span></b></h3>
+            </div>
+
+            <div class="row mb-1">
                 <div class="col-md-6">
 
-                  <b>Vehiculo:</b> &nbsp; <span id="datosVehiculo"></span>
+                  <b>Modelo:</b> &nbsp; <span id="datosVehiculo"></span>
                     
                 </div>
                 <div class="col-md-6">
@@ -112,16 +116,27 @@
                 </div>
             </div>
 
-            <!-- <br> -->
+            <div class="row mb-4">
+                <div class="col">
 
-            <div class="form-group row">
-              <label for="servicioRepuesto" class="col-sm-2 col-form-label">Servicio:</label>
-              <div class="col-sm-10">
-                <input type="text" class="form-control" name="servicioRepuesto" id="servicioRepuesto" placeholder="Servicio / Repuesto" required>
+                  <b>Servicio:</b> &nbsp; <span id="spServicio"></span>
+                    
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="row">
+              <div class="col">
+                  <div class="form-group">
+                    <label for="servicioRepuesto">Repuesto / servicio:</label>
+                    <input type="text" class="form-control" name="servicioRepuesto" id="servicioRepuesto" placeholder="Repuesto / Servicio" required>
+                  </div>
               </div>
             </div>
 
             <div class="row">
+
                 <div class="col-md-6">
 
                     <div class="form-group">
@@ -149,7 +164,7 @@
                 <thead>
                   <tr>
                     <th>#</th>
-                    <th>Producto / servicio</th>
+                    <th>Repuesto / servicio</th>
                     <th>Base</th>
                     <th>Utilidad</th>
                     <th>Sub total</th>
@@ -164,7 +179,7 @@
                 <tfoot>
                   <tr>
                     <td colspan="4" align="right"><h3>Total Orden: S/.</h3></td>
-                    <td><h3><span id="spTotalVenta">0.00</span></h3></td>
+                    <td><h3><span id="spTotalServicio">0.00</span></h3></td>
                     <td>
                       <input type="hidden" id="totalBase" value=""/>
                       <input type="hidden" id="totalUtilidad" value=""/>

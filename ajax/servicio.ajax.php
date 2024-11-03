@@ -24,20 +24,42 @@ if($accion == "registrarDetalleServicio"){
     $idServicio = $_POST["idServicio"];
     $listaProductos = $_POST["listaProductos"];
 
+    $anularDetalleServicio = ModeloServicio::mdlAnularDetalleServicio($idServicio);
+
     foreach($listaProductos as $key => $value){
 
         $datosDetalleServicio = array(
                                 "idServicio" => $idServicio,
                                 "item" => $value["servicioProducto"],
                                 "precioBase" => $value["base"],
-                                "utilidad" => $value["utilidad"]
+                                "utilidad" => $value["utilidad"],
+                                "subTotal" => $value["subTotal"]
                             );
 
         $registroDetalleServicio = ModeloServicio::mdlRegistrarDetalleServicio($datosDetalleServicio);
         
     }
 
-    return "ok";
+    $datosServicio = array(
+            "idServicio" => $idServicio,
+            "totalBase" => $_POST["totalBase"],
+            "totalUtilidad" => $_POST["totalUtilidad"],
+            "totalServicio" => $_POST["totalServicio"]
+    );
+
+    $actualizacionServicio = ModeloServicio::mdlEditarServicio($datosServicio);
+
+    echo json_encode($actualizacionServicio);
+
+}
+else
+if($accion == "mostrarDetalleServicio"){
+
+    $idServicio = $_POST["idServicio"];
+
+    $respuesta = ModeloServicio::mdlMostrarDetelleServicio($idServicio);
+
+    echo json_encode($respuesta);
 
 }
 else

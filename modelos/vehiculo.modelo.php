@@ -20,7 +20,8 @@ class ModeloVehiculo{
                                                         FROM vehiculo V
                                                         INNER JOIN marca_vehiculo M ON V.ID_MARCA = M.ID_MARCA
                                                         INNER JOIN modelo_vehiculo D ON V.ID_MODELO = D.ID_MODELO
-                                                        WHERE V.ESTADO_REGISTRO = 1");
+                                                        WHERE V.ESTADO_REGISTRO = 1
+                                                        ORDER BY FECHA_REGISTRO DESC");
 
             $stmt -> execute();
 

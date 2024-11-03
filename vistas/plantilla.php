@@ -116,7 +116,9 @@
 
 <script src="vistas/js/plantilla.js?v=<?php echo(rand()); ?>"></script>
 <script src="vistas/js/servicio.js?v=<?php echo(rand()); ?>"></script>
+<script src="vistas/js/vehiculo.js?v=<?php echo(rand()); ?>"></script>
 <script src="vistas/js/marcamodelo.js?v=<?php echo(rand()); ?>"></script>
+<script src="vistas/js/reportes.js?v=<?php echo(rand()); ?>"></script>
 
 </body>
 </html>

@@ -45,19 +45,20 @@ class ModeloServicio{
         }
 
         $stmt = Conexion::conectar()->prepare("SELECT S.ID_SERVICIO,
-                                                            S.FECHA_INGRESO,
-                                                            V.PLACA_VEHICULO,
-                                                            CONCAT(M.NOMBRE_MARCA,' ', D.NOMBRE_MODELO) MARCA_MODELO,
-                                                            S.DETALLE_SERVICIO,
-                                                            S.TOTAL_SERVICIO,
-                                                            S.ESTADO_SERVICIO
-                                                    FROM servicio S
-                                                    INNER JOIN vehiculo V ON S.ID_VEHICULO = V.ID_VEHICULO
-                                                    INNER JOIN marca_vehiculo M ON V.ID_MARCA = M.ID_MARCA
-                                                    INNER JOIN modelo_vehiculo D ON V.ID_MODELO = D.ID_MODELO
-                                                    WHERE S.ESTADO_SERVICIO = 1
-                                                    AND S.ESTADO_REGISTRO = 1 $condicion
-                                                    ORDER BY S.FECHA_INGRESO DESC");
+                                                        S.FECHA_INGRESO,
+                                                        V.PLACA_VEHICULO,
+                                                        CONCAT(M.NOMBRE_MARCA,' ', D.NOMBRE_MODELO) MARCA_MODELO,
+                                                        S.DETALLE_SERVICIO,
+                                                        S.ITEMS,
+                                                        S.TOTAL_SERVICIO,
+                                                        S.ESTADO_SERVICIO
+                                                FROM servicio S
+                                                INNER JOIN vehiculo V ON S.ID_VEHICULO = V.ID_VEHICULO
+                                                INNER JOIN marca_vehiculo M ON V.ID_MARCA = M.ID_MARCA
+                                                INNER JOIN modelo_vehiculo D ON V.ID_MODELO = D.ID_MODELO
+                                                WHERE S.ESTADO_SERVICIO = 1
+                                                AND S.ESTADO_REGISTRO = 1 $condicion
+                                                ORDER BY S.FECHA_INGRESO DESC");
 
         $stmt -> execute();
 
@@ -110,21 +111,65 @@ class ModeloServicio{
     //Registrar detalle servicio
     static public function mdlRegistrarDetalleServicio($datos){
 
-        session_start();
-
         $stmt = Conexion::conectar()->prepare("INSERT INTO servicio_detalle (ID_SERVICIO,
                                                                      ITEM,
                                                                      PRECIO_BASE,
-                                                                     UTILIDAD)
+                                                                     UTILIDAD,
+                                                                     SUBTOTAL)
                                                              VALUES(:ID_SERVICIO,
                                                                     :ITEM,
                                                                     :PRECIO_BASE,
-                                                                    :UTILIDAD)");
+                                                                    :UTILIDAD,
+                                                                    :SUBTOTAL)");
 
         $stmt -> bindParam(":ID_SERVICIO", $datos["idServicio"], PDO::PARAM_STR);
         $stmt -> bindParam(":ITEM", $datos["item"], PDO::PARAM_STR);
         $stmt -> bindParam(":PRECIO_BASE", $datos["precioBase"], PDO::PARAM_STR);
         $stmt -> bindParam(":UTILIDAD", $datos["utilidad"], PDO::PARAM_STR);
+        $stmt -> bindParam(":SUBTOTAL", $datos["subTotal"], PDO::PARAM_STR);
+
+        if($stmt->execute()){
+
+            return "ok";
+
+        }else{
+
+            return "error";
+
+        }
+
+        $stmt = null;
+
+    }
+
+
+    //Mostrar detalle servicio
+    static public function mdlMostrarDetelleServicio($idServicio){
+
+        $stmt = Conexion::conectar()->prepare("SELECT D.ID_SERVICIO,
+                                                        D.ITEM,
+                                                        D.PRECIO_BASE,
+                                                        D.UTILIDAD,
+                                                        D.SUBTOTAL
+                                                FROM servicio_detalle D
+                                                WHERE D.ID_SERVICIO = $idServicio
+                                                AND D.ESTADO_REGISTRO = 1");
+
+        $stmt -> execute();
+
+        return $stmt -> fetchAll(); //Devolvemos Todos los registros encontrados
+
+        $stmt = null;
+
+    }
+
+
+    //Anular detalles de servicio
+    static public function mdlAnularDetalleServicio($idServicio){
+
+        $stmt = Conexion::conectar()->prepare("UPDATE servicio_detalle SET ESTADO_REGISTRO = 0 WHERE ID_SERVICIO = :ID_SERVICIO");
+
+        $stmt -> bindParam(":ID_SERVICIO", $idServicio, PDO::PARAM_STR);
 
         if($stmt->execute()){
 
@@ -144,11 +189,16 @@ class ModeloServicio{
     //Editar servicio
     static public function mdlEditarServicio($datos){
 
-        $stmt = Conexion::conectar()->prepare("UPDATE servicio SET COSTO_SERVICIO = :COSTO_SERVICIO 
+        $stmt = Conexion::conectar()->prepare("UPDATE servicio SET ITEMS = 1,
+                                                                   TOTAL_BASE = :TOTAL_BASE,
+                                                                   TOTAL_UTILIDAD = :TOTAL_UTILIDAD,
+                                                                   TOTAL_SERVICIO = :TOTAL_SERVICIO 
                                                                WHERE ID_SERVICIO = :ID_SERVICIO");
 
         $stmt -> bindParam(":ID_SERVICIO", $datos["idServicio"], PDO::PARAM_STR);
-        $stmt -> bindParam(":COSTO_SERVICIO", $datos["nuevoCostoServicio"], PDO::PARAM_STR);
+        $stmt -> bindParam(":TOTAL_BASE", $datos["totalBase"], PDO::PARAM_STR);
+        $stmt -> bindParam(":TOTAL_UTILIDAD", $datos["totalUtilidad"], PDO::PARAM_STR);
+        $stmt -> bindParam(":TOTAL_SERVICIO", $datos["totalServicio"], PDO::PARAM_STR);
 
         if($stmt->execute()){
 
@@ -290,17 +340,20 @@ class ModeloServicio{
 
         $stmt = Conexion::conectar()->prepare("SELECT S.ID_SERVICIO,
                                                         S.FECHA_INGRESO,
-                                                        S.PLACA_VEHICULO,
+                                                        V.PLACA_VEHICULO,
                                                         CONCAT(M.NOMBRE_MARCA,' ', D.NOMBRE_MODELO) MARCA_MODELO,
-                                                        S.DESC_SERVICIO,
-                                                        S.COSTO_SERVICIO,
+                                                        S.DETALLE_SERVICIO,
+                                                        S.TOTAL_BASE,
+                                                        S.TOTAL_UTILIDAD,
+                                                        S.TOTAL_SERVICIO,
                                                         S.ESTADO_SERVICIO,
                                                         S.USUARIO_INGRESO,
                                                         S.FECHA_SALIDA,
                                                         S.USUARIO_SALIDA
                                                 FROM servicio S
-                                                INNER JOIN marca_vehiculo M ON M.ID_MARCA = S.ID_MARCA_VEHICULO
-                                                INNER JOIN modelo_vehiculo D ON D.ID_MODELO = S.ID_MODELO_VEHICULO
+                                                INNER JOIN vehiculo V ON S.ID_VEHICULO = V.ID_VEHICULO
+                                                INNER JOIN marca_vehiculo M ON M.ID_MARCA = V.ID_MARCA
+                                                INNER JOIN modelo_vehiculo D ON D.ID_MODELO = V.ID_MODELO
                                                 WHERE S.FECHA_INGRESO BETWEEN '$fechaDesde 00:00:00' AND '$fechaHasta 23:59:59'
                                                 AND S.ESTADO_REGISTRO = 1
                                                 ORDER BY S.FECHA_INGRESO DESC");
@@ -355,23 +408,25 @@ class ModeloServicio{
 
 
     //Reporte por placa
-    static public function mdlReportePlaca($fechaDesde, $fechaHasta, $placa){
+    static public function mdlReportePlaca($placa){
 
         $stmt = Conexion::conectar()->prepare("SELECT S.ID_SERVICIO,
                                                         S.FECHA_INGRESO,
-                                                        S.PLACA_VEHICULO,
+                                                        V.PLACA_VEHICULO,
                                                         CONCAT(M.NOMBRE_MARCA,' ', D.NOMBRE_MODELO) MARCA_MODELO,
-                                                        S.DESC_SERVICIO,
-                                                        S.COSTO_SERVICIO,
+                                                        S.DETALLE_SERVICIO,
+                                                        S.TOTAL_BASE,
+                                                        S.TOTAL_UTILIDAD,
+                                                        S.TOTAL_SERVICIO,
                                                         S.ESTADO_SERVICIO,
                                                         S.USUARIO_INGRESO,
                                                         S.FECHA_SALIDA,
                                                         S.USUARIO_SALIDA
                                                 FROM servicio S
-                                                INNER JOIN marca_vehiculo M ON M.ID_MARCA = S.ID_MARCA_VEHICULO
-                                                INNER JOIN modelo_vehiculo D ON D.ID_MODELO = S.ID_MODELO_VEHICULO
-                                                WHERE S.FECHA_INGRESO BETWEEN '$fechaDesde 00:00:00' AND '$fechaHasta 23:59:59'
-                                                AND S.PLACA_VEHICULO = '$placa'
+                                                INNER JOIN vehiculo V ON S.ID_VEHICULO = V.ID_VEHICULO
+                                                INNER JOIN marca_vehiculo M ON M.ID_MARCA = V.ID_MARCA
+                                                INNER JOIN modelo_vehiculo D ON D.ID_MODELO = V.ID_MODELO
+                                                WHERE V.PLACA_VEHICULO = UPPER('$placa')
                                                 AND S.ESTADO_REGISTRO = 1
                                                 ORDER BY S.FECHA_INGRESO DESC");
 
