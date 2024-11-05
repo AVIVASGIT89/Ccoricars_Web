@@ -42,6 +42,18 @@
 
               foreach($listaServiciosPendientes as $key => $valor){
 
+                $color = "";
+
+                if($valor["ITEMS"] == "1"){
+
+                  $color = "warning";
+
+                }else{
+
+                  $color = "primary";
+
+                }
+
                 echo '<tr>
                         <td>'.($key + 1).'</td>
                         <td>'.$valor["FECHA_INGRESO"].'</td>
@@ -61,7 +73,7 @@
                         <td align="center">
                           <div class="btn-group">
                             <button class="btn btn-success" onclick="finalizarServicio('.$valor["ID_SERVICIO"].');"><i class="fas fa-check"></i></button>
-                            <button class="btn btn-warning" onclick="registroDetalleServicio('.$valor["ID_SERVICIO"].');"><i class="fas fa-wrench"></i></button>
+                            <button class="btn btn-'.$color.'" onclick="registroDetalleServicio('.$valor["ID_SERVICIO"].');"><i class="fas fa-wrench"></i></button>
                             <button class="btn btn-danger" onclick="anularServicio('.$valor["ID_SERVICIO"].');"><i class="fas fa-times"></i></button>
                           </div>
                         </td>
@@ -111,7 +123,20 @@
                 </div>
                 <div class="col-md-6">
 
+                  <b>Color:</b> &nbsp; <span id="spColor"></span>
+
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <div class="col-md-6">
+
                   <b>Ingreso:</b> &nbsp; <span id="datosIngreso"></span>
+                    
+                </div>
+                <div class="col-md-6">
+
+                  <b>Kilometraje:</b> &nbsp; <span id="spKilometraje"></span>
 
                 </div>
             </div>
@@ -188,6 +213,15 @@
                   </tr>
                 </tfoot>
               </table>
+            </div>
+
+            <br>
+
+            <div class="text-center" id="dvDescargarItems" style="display: none;">
+              <form target="_blank" action="vistas/modulos/descargarcotizacion.php" method="get">
+                <input type="hidden" id="idServicioCotizacion" name="idServicioCotizacion" value=""/>
+                <button class="btn btn-info"><i class="fas fa-file-download"></i> &nbsp; Descargar</button>
+              </form>
             </div>
             
           </div>

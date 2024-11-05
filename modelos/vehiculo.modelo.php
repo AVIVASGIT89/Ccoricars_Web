@@ -65,6 +65,8 @@ class ModeloVehiculo{
                                                                     ID_MARCA,
                                                                     ID_MODELO,
                                                                     ANIO_FABRICACION,
+                                                                    NRO_MOTOR,
+                                                                    COLOR,
                                                                     RESPONSABLE,
                                                                     FECHA_REGISTRO,
                                                                     USUARIO_REGISTRO)
@@ -72,6 +74,8 @@ class ModeloVehiculo{
                                                                     :ID_MARCA,
                                                                     :ID_MODELO,
                                                                     :ANIO_FABRICACION,
+                                                                    UPPER(:NRO_MOTOR),
+                                                                    INITCAP(:COLOR),
                                                                     INITCAP(:RESPONSABLE),
                                                                     NOW(),
                                                                     :USUARIO_REGISTRO)");
@@ -80,6 +84,8 @@ class ModeloVehiculo{
         $stmt -> bindParam(":ID_MARCA", $datosVehiculo["marcaVehiculo"], PDO::PARAM_STR);
         $stmt -> bindParam(":ID_MODELO", $datosVehiculo["modeloVehiculo"], PDO::PARAM_STR);
         $stmt -> bindParam(":ANIO_FABRICACION", $datosVehiculo["anioFabricacion"], PDO::PARAM_STR);
+        $stmt -> bindParam(":NRO_MOTOR", $datosVehiculo["nroMotor"], PDO::PARAM_STR);
+        $stmt -> bindParam(":COLOR", $datosVehiculo["color"], PDO::PARAM_STR);
         $stmt -> bindParam(":RESPONSABLE", $datosVehiculo["responsable"], PDO::PARAM_STR);
         $stmt -> bindParam(":USUARIO_REGISTRO", $_SESSION["sUsuario"], PDO::PARAM_STR);
 

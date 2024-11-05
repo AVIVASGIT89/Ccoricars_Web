@@ -47,8 +47,10 @@ class ModeloServicio{
         $stmt = Conexion::conectar()->prepare("SELECT S.ID_SERVICIO,
                                                         S.FECHA_INGRESO,
                                                         V.PLACA_VEHICULO,
+                                                        V.COLOR,
                                                         CONCAT(M.NOMBRE_MARCA,' ', D.NOMBRE_MODELO) MARCA_MODELO,
                                                         S.DETALLE_SERVICIO,
+                                                        S.KM_INGRESO,
                                                         S.ITEMS,
                                                         S.TOTAL_SERVICIO,
                                                         S.ESTADO_SERVICIO

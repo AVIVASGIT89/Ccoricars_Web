@@ -143,6 +143,22 @@
               <input type="number" name="anioFabricacion" class="form-control" placeholder="Año fabricacion" required>
             </div>
 
+            <!-- Nro motor -->
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-sim-card"></i></span>
+              </div>
+              <input type="text" name="nroMotor" class="form-control" placeholder="Nro de motor" required>
+            </div>
+
+            <!-- Color -->
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-palette"></i></span>
+              </div>
+              <input type="text" name="color" class="form-control" placeholder="Color" required>
+            </div>
+
             <!-- Responsable -->
             <div class="input-group mb-3">
               <div class="input-group-prepend">

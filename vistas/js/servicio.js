@@ -253,10 +253,13 @@ function registroDetalleServicio(idServicio){
             respuesta.forEach(function(row) {
                 items = row.ITEMS;
                 $("#spPlaca").text(row.PLACA_VEHICULO);
+                $("#spColor").text(row.COLOR);
                 $("#datosVehiculo").text(row.MARCA_MODELO);
                 $("#datosIngreso").text(row.FECHA_INGRESO);
+                $("#spKilometraje").text(row.KM_INGRESO);
                 $("#spServicio").text(row.DETALLE_SERVICIO);
                 $("#idServicio").val(row.ID_SERVICIO);
+                $("#idServicioCotizacion").val(row.ID_SERVICIO);
             });
 
             var tbody = $("#tbodyListaProductos");
@@ -269,8 +272,8 @@ function registroDetalleServicio(idServicio){
 
             }else{
 
+                $("#dvDescargarItems").hide();
                 $("#spTotalServicio").text("0.00");
-
                 $("#modalEditarServicio").modal("show");
 
             }
@@ -324,6 +327,7 @@ function mostrarItemsServicio(idServicio){
             enumerarItem();
             calcularTotal();
 
+            $("#dvDescargarItems").show();
             $("#modalEditarServicio").modal("show");
 
         }

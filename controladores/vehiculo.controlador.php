@@ -15,13 +15,15 @@ class ControladorVehiculo{
     //Registrar vehiculo
     static public function ctrRegistrarVehiculo(){
 
-        if(isset($_POST["placaVehiculo"])){
+        if(isset($_POST["nuevoPlacaVehiculo"])){
 
             $datosVehiculo = array(
-                                "placaVehiculo" => $_POST["placaVehiculo"],
+                                "placaVehiculo" => $_POST["nuevoPlacaVehiculo"],
                                 "marcaVehiculo" => $_POST["idMarcaVehiculo"],
                                 "modeloVehiculo" => $_POST["idModeloVehiculo"],
                                 "anioFabricacion" => $_POST["anioFabricacion"],
+                                "nroMotor" => $_POST["nroMotor"],
+                                "color" => $_POST["color"],
                                 "responsable" => $_POST["responsable"]
                               );
 
