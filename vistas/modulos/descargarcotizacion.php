@@ -37,13 +37,13 @@ class PDF extends FPDF
         // Logo
         $this->Image('../../vistas/dist/img/logo.png',10,7,25);
         // Arial bold 15
-        $this->SetFont('Arial','B',18);
+        $this->SetFont('Arial','B',24);
         // Movernos a la derecha
         $this->Cell(81);
         // Título
         $this->Cell(30,10,'Ccoricars',0,0,'C');
         // Salto de línea
-        $this->Ln(7);
+        $this->Ln(10);
     }
 
     // Pie de página
@@ -68,29 +68,38 @@ $pdf->Cell(64);// Movernos 64 a la derecha
 $pdf->Cell(40,10,utf8_decode('Direccion....'));
 $pdf->Ln(7);
 $pdf->Cell(75);// Movernos 75 a la derecha
-$pdf->Cell(40,10,utf8_decode('RUC: XXXXXXXXX'));
+$pdf->Cell(40,10,utf8_decode('Cel: 930 918 915'));
 
 $pdf->Ln(16);   //Salto de Linea de 16
 
-$pdf->SetFont('Arial','',17);
+$pdf->SetFont('Arial','B',17);
 $pdf->Cell(0,10,'Orden de servicio',0,0,'C');     // 'C' de centrado
 
 $pdf->Ln(12);
 
-$pdf->SetFont('Arial', '', 12);
+$pdf->SetFont('Arial', 'B', 12);
 $pdf->Cell(30, 10, 'Placa: ', 0, 0, '');
+$pdf->SetFont('Arial', '', 12);
 $pdf->Cell(60, 10, $placaVehiculo);
 //$pdf->Ln(7);
+$pdf->SetFont('Arial', 'B', 12);
 $pdf->Cell(40, 10, 'Marca / modelo: ', 0, 0, '');
+$pdf->SetFont('Arial', '', 12);
 $pdf->Cell(0, 10, $marcaModelo);
 $pdf->Ln(7);
+$pdf->SetFont('Arial', 'B', 12);
 $pdf->Cell(30, 10, 'Ingreso: ', 0, 0, '');
+$pdf->SetFont('Arial', '', 12);
 $pdf->Cell(60, 10, $fechaIngreso);
 //$pdf->Ln(7);
+$pdf->SetFont('Arial', 'B', 12);
 $pdf->Cell(40, 10, 'Kilometraje: ', 0, 0, '');
+$pdf->SetFont('Arial', '', 12);
 $pdf->Cell(0, 10, $kilometraje);
 $pdf->Ln(7);
+$pdf->SetFont('Arial', 'B', 12);
 $pdf->Cell(30, 10, 'Servicio: ', 0, 0, '');
+$pdf->SetFont('Arial', '', 12);
 $pdf->MultiCell( 139, 5, $descServicio, 0);
 
 $pdf->Ln(15);
