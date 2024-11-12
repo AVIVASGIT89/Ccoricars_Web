@@ -23,7 +23,6 @@ function buscarVehiculoPlaca(){
             if(!respuesta){
 
                 alert('Vehiculo no encontrado');
-                $("#placaVehiculo").focus();
                 $("#placaVehiculo").select();
                 return;
 
@@ -36,7 +35,7 @@ function buscarVehiculoPlaca(){
             $("#spResponsable").text(respuesta.RESPONSABLE);
             $("#idVehiculo").val(respuesta.ID_VEHICULO);
 
-            $('#kilometraje').focus();
+            $('#kilometraje').select();
 
         }
 
@@ -48,6 +47,8 @@ function buscarVehiculoPlaca(){
 //Registrar servicio
 $("#btnRegistrarServicio").click(function(){
 
+    $("#btnRegistrarServicio").prop('disabled', true);
+
     var idVehiculo = $("#idVehiculo").val();
     var fechaIngreso = $("#fechaIngreso").val();
     var horaIngreso = $("#horaIngreso").val();
@@ -58,6 +59,7 @@ $("#btnRegistrarServicio").click(function(){
 
         alert("Ingrese los datos del vehiculo");
         $("#placaVehiculo").focus();
+        $("#btnRegistrarServicio").prop('disabled', false);
         return;
 
     }
@@ -70,6 +72,10 @@ $("#btnRegistrarServicio").click(function(){
     datos.append("kilometraje", kilometraje);
     datos.append("detalleServicio", detalleServicio);
 
+    //Efecto "Registrando..."
+    $(this).prop("disabled", true);
+    $(this).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Registrando...');      
+
     $.ajax({
         url: "ajax/servicio.ajax.php",
         method: "POST",
@@ -80,13 +86,14 @@ $("#btnRegistrarServicio").click(function(){
         dataType: "json",
         success: function(respuesta){
 
-            console.log("respuesta:", respuesta);
+            //console.log("respuesta:", respuesta);
         
             if(respuesta == "ok"){
         
                 Swal.fire({
                     title: "Servicio registrado correctamente",
                     icon: "success",
+                    allowOutsideClick: false,
                     confirmButtonText: "Ok"
                 }).then((result) => {
 
@@ -148,6 +155,7 @@ function finalizarServicio(idServicio){
                         Swal.fire({
                             title: "Servicio finalizado correctamente",
                             icon: "success",
+                            allowOutsideClick: false,
                             confirmButtonText: "Ok"
                         }).then((result) => {
         
@@ -207,6 +215,7 @@ function anularServicio(idServicio){
                         Swal.fire({
                             title: "El servicio ha sido anulado correctamente",
                             icon: "success",
+                            allowOutsideClick: false,
                             confirmButtonText: "Ok"
                         }).then((result) => {
         
@@ -500,6 +509,10 @@ $("#btnRegistrarDetalleServicio").click(function(){
         "listaProductos": listaProductos
     };
 
+    //Efecto "Registrando..."
+    $(this).prop("disabled", true);
+    $(this).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Registrando...');      
+
     $.ajax({
         url: "ajax/servicio.ajax.php",
         method: "POST",
@@ -507,13 +520,14 @@ $("#btnRegistrarDetalleServicio").click(function(){
         dataType: "json",
         success: function(respuesta){
 
-            console.log("respuesta:", respuesta);
+            //console.log("respuesta:", respuesta);
         
             if(respuesta == "ok"){
         
                 Swal.fire({
                     title: "Detalle de servicio registrado correctamente",
                     icon: "success",
+                    allowOutsideClick: false,
                     confirmButtonText: "Ok"
                 }).then((result) => {
 

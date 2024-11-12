@@ -13,3 +13,13 @@ if($accion == "buscarVehiculoPlaca"){
     echo json_encode($respuesta);
 
 }
+else
+if($accion == "buscarVehiculoEditar"){
+
+    $idVehiculo = $_POST["idVehiculo"];
+
+    $respuesta = ModeloVehiculo::mdlListarVehiculos("ID_VEHICULO", $idVehiculo);
+
+    echo json_encode($respuesta);
+
+}

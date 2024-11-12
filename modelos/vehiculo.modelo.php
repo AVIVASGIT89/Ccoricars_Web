@@ -29,13 +29,15 @@ class ModeloVehiculo{
 
         }else{
 
-            //$stmt = Conexion::conectar()->prepare("SELECT * FROM producto WHERE $item = :$item");
-
             $stmt = Conexion::conectar()->prepare("SELECT V.ID_VEHICULO,
                                                                 V.PLACA_VEHICULO,
+                                                                V.ID_MARCA,
+                                                                V.ID_MODELO,
                                                                 M.NOMBRE_MARCA,
                                                                 D.NOMBRE_MODELO,
                                                                 V.ANIO_FABRICACION,
+                                                                V.NRO_MOTOR,
+                                                                V.COLOR,
                                                                 V.RESPONSABLE,
                                                                 V.FECHA_REGISTRO,
                                                                 V.USUARIO_REGISTRO
@@ -88,6 +90,41 @@ class ModeloVehiculo{
         $stmt -> bindParam(":COLOR", $datosVehiculo["color"], PDO::PARAM_STR);
         $stmt -> bindParam(":RESPONSABLE", $datosVehiculo["responsable"], PDO::PARAM_STR);
         $stmt -> bindParam(":USUARIO_REGISTRO", $_SESSION["sUsuario"], PDO::PARAM_STR);
+
+        if($stmt->execute()){
+
+            return "ok";
+
+        }else{
+
+            return "error";
+
+        }
+
+        $stmt = null;
+
+    }
+
+
+    //Registrar vehiculo
+    static public function mdlEditarVehiculo($datosVehiculo){
+
+        $stmt = Conexion::conectar()->prepare("UPDATE vehiculo
+                                                SET ID_MARCA = :ID_MARCA,
+                                                    ID_MODELO = :ID_MODELO,
+                                                    ANIO_FABRICACION = :ANIO_FABRICACION,
+                                                    NRO_MOTOR = UPPER(:NRO_MOTOR),
+                                                    COLOR = INITCAP(:COLOR),
+                                                    RESPONSABLE = INITCAP(:RESPONSABLE)
+                                                WHERE ID_VEHICULO = :ID_VEHICULO");
+
+        $stmt -> bindParam(":ID_MARCA", $datosVehiculo["marcaVehiculo"], PDO::PARAM_STR);
+        $stmt -> bindParam(":ID_MODELO", $datosVehiculo["modeloVehiculo"], PDO::PARAM_STR);
+        $stmt -> bindParam(":ANIO_FABRICACION", $datosVehiculo["anioFabricacion"], PDO::PARAM_STR);
+        $stmt -> bindParam(":NRO_MOTOR", $datosVehiculo["nroMotor"], PDO::PARAM_STR);
+        $stmt -> bindParam(":COLOR", $datosVehiculo["color"], PDO::PARAM_STR);
+        $stmt -> bindParam(":RESPONSABLE", $datosVehiculo["responsable"], PDO::PARAM_STR);
+        $stmt -> bindParam(":ID_VEHICULO", $datosVehiculo["idVehiculoEditar"], PDO::PARAM_STR);
 
         if($stmt->execute()){
 

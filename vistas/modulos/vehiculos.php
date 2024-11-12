@@ -148,7 +148,7 @@
               <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fas fa-sim-card"></i></span>
               </div>
-              <input type="text" name="nroMotor" class="form-control" placeholder="Nro de motor" required>
+              <input type="text" name="nroMotor" class="form-control" placeholder="Nro de motor">
             </div>
 
             <!-- Color -->
@@ -179,6 +179,122 @@
         
           $registrarVehiculo = new ControladorVehiculo();
           $registrarVehiculo -> ctrRegistrarVehiculo();
+
+        ?>
+
+      </form>
+
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+
+
+  <!-- Modal para editar vehiculo-->
+  <div class="modal fade" id="modalEditarVehiculo">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+      <form rol="form" method="POST">
+
+        <div class="modal-header">
+          <h4 class="modal-title">Editar vehiculo</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          
+          <div class="card-body">
+            
+            <!-- Placa vehiculo -->
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-id-card"></i></span>
+              </div>
+              <input type="text" name="editarPlacaVehiculo" id="editarPlacaVehiculo" class="form-control" placeholder="Ingrese placa" disabled>
+            </div>
+
+            <!-- Marca Vehiculo -->
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-car"></i></span>
+              </div>
+              <select name="idMarcaVehiculoEditar" id="idMarcaVehiculoEditar" class="form-control" required>
+                <option value="">- Marca Vehiculo -</option>
+
+                <?php
+                  $marcasVehiculo = $_SESSION["sMarcasVehiculo"];
+
+                  for($i = 0; $i < count($marcasVehiculo["ID"]); $i++){
+                ?>
+
+                  <option value="<?php echo $marcasVehiculo["ID"][$i];?>"><?php echo $marcasVehiculo["MARCA"][$i];?></option>
+
+                <?php
+                  }
+                ?>
+                
+              </select>
+            </div>
+
+            <!-- Modelo Vehiculo -->
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-car-side"></i></span>
+              </div>
+              <select name="idModeloVehiculoEditar" id="idModeloVehiculoEditar" class="form-control" required>
+                <option value="">- Modelo Vehiculo -</option>
+              </select>
+            </div>
+
+            <!-- Año fabricacion -->
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-hammer"></i></span>
+              </div>
+              <input type="number" id="anioFabricacionEditar" name="anioFabricacionEditar" class="form-control" placeholder="Año fabricacion" required>
+            </div>
+
+            <!-- Nro motor -->
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-sim-card"></i></span>
+              </div>
+              <input type="text" id="nroMotorEditar" name="nroMotorEditar" class="form-control" placeholder="Nro de motor">
+            </div>
+
+            <!-- Color -->
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-palette"></i></span>
+              </div>
+              <input type="text" id="colorEditar" name="colorEditar" class="form-control" placeholder="Color" required>
+            </div>
+
+            <!-- Responsable -->
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-user"></i></span>
+              </div>
+              <input type="text" id="responsableEditar" name="responsableEditar" class="form-control" placeholder="Nombre responsable" required>
+            </div>
+
+            <input type="hidden" id="idVehiculoEditar" name="idVehiculoEditar">
+            
+          </div>
+          
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Salir</button>
+          <button type="submit" class="btn btn-success" id="btnRegistrarVehiculoEditar">Actualizar</button>
+        </div>
+
+        <?php
+        
+          $registrarVehiculo = new ControladorVehiculo();
+          $registrarVehiculo -> ctrEditarVehiculo();
 
         ?>
 

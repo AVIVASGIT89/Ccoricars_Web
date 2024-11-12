@@ -98,12 +98,12 @@
                   <p>General</p>
                 </a>
               </li>
-              <li class="nav-item">
+              <!-- <li class="nav-item">
                 <a href="reportemarca" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Por marca y modelo</p>
                 </a>
-              </li>
+              </li> -->
               <li class="nav-item">
                 <a href="reporteplaca" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>

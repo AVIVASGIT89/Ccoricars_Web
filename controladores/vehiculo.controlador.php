@@ -36,6 +36,7 @@ class ControladorVehiculo{
                             Swal.fire({
                                 title: "Vehiculo registrado correctamente",
                                 icon: "success",
+                                allowOutsideClick: false,
                                 confirmButtonText: "Ok"
                             }).then((result) => {
                                 if (result.isConfirmed) {
@@ -49,6 +50,53 @@ class ControladorVehiculo{
 
                 echo '<script>
                             alert("Error en registro");
+                    </script>';
+
+            }
+
+        }
+
+    }
+
+
+    //Registrar vehiculo
+    static public function ctrEditarVehiculo(){
+
+        if(isset($_POST["idVehiculoEditar"])){
+
+            $datosVehiculo = array(
+                                "idVehiculoEditar" => $_POST["idVehiculoEditar"],
+                                "marcaVehiculo" => $_POST["idMarcaVehiculoEditar"],
+                                "modeloVehiculo" => $_POST["idModeloVehiculoEditar"],
+                                "anioFabricacion" => $_POST["anioFabricacionEditar"],
+                                "nroMotor" => $_POST["nroMotorEditar"],
+                                "color" => $_POST["colorEditar"],
+                                "responsable" => $_POST["responsableEditar"]
+                              );
+
+            $respuesta = ModeloVehiculo::mdlEditarVehiculo($datosVehiculo);
+
+            if($respuesta == "ok"){
+
+                echo '<script>
+
+                            Swal.fire({
+                                title: "Vehiculo actualizado correctamente",
+                                icon: "success",
+                                allowOutsideClick: false,
+                                confirmButtonText: "Ok"
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    window.location = "vehiculos";
+                                }
+                            })
+
+                    </script>';
+
+            }else{
+
+                echo '<script>
+                            alert("Error en actualizacion");
                     </script>';
 
             }

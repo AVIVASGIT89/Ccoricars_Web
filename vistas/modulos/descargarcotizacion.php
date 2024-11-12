@@ -64,8 +64,8 @@ $pdf->AddPage();
 
 /**********  Inicio Contenido PDF  ************/
 $pdf->SetFont('Arial','',12);
-$pdf->Cell(64);// Movernos 64 a la derecha
-$pdf->Cell(40,10,utf8_decode('Direccion....'));
+$pdf->Cell(40);// Movernos 64 a la derecha
+$pdf->Cell(40,10,utf8_decode('AV. José Saco Rojas MZ B Lt 2 - San Pedro de Carabayllo'));
 $pdf->Ln(7);
 $pdf->Cell(75);// Movernos 75 a la derecha
 $pdf->Cell(40,10,utf8_decode('Cel: 930 918 915'));
