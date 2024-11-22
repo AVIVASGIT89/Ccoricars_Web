@@ -84,6 +84,7 @@
 
             if($_GET["ruta"] == "inicio" ||
                 $_GET["ruta"] == "ingreso" ||
+                $_GET["ruta"] == "usuarios" ||
                 $_GET["ruta"] == "salida" ||
                 $_GET["ruta"] == "reportegeneral" ||
                 $_GET["ruta"] == "reportemarca" ||
@@ -115,6 +116,7 @@
 ?>
 
 <script src="vistas/js/plantilla.js?v=<?php echo(rand()); ?>"></script>
+<script src="vistas/js/usuario.js?v=<?php echo(rand()); ?>"></script>
 <script src="vistas/js/servicio.js?v=<?php echo(rand()); ?>"></script>
 <script src="vistas/js/vehiculo.js?v=<?php echo(rand()); ?>"></script>
 <script src="vistas/js/marcamodelo.js?v=<?php echo(rand()); ?>"></script>

@@ -38,17 +38,17 @@
       <!-- Default box -->
       <div class="card">
         <div class="card-header">
-          <form rol="form" method="POST">
+          <form rol="form" id="frmReporteGeneral" method="POST">
             <div class="form-group row">
               <div class="col-xs-12 col-sm-2 mb-1">
                 <div class="input-group align-items-center">
-                  Desde:<input type="date" name="fechaDesde" class="form-control" value="<?php echo $fechaDesde?>">
+                  Desde:<input type="date" id="fechaDesde" name="fechaDesde" class="form-control" value="<?php echo $fechaDesde?>">
                 </div>
               </div>
 
               <div class="col-xs-12 col-sm-2 mb-1">
                 <div class="input-group align-items-center">
-                  Hasta:<input type="date" name="fechaHasta" class="form-control" value="<?php echo $fechaHasta?>">
+                  Hasta:<input type="date" id="fechaHasta" name="fechaHasta" class="form-control" value="<?php echo $fechaHasta?>">
                 </div>
               </div>
 
@@ -132,7 +132,7 @@
             </tbody>
           </table>
           <?php
-          if($reporteGeneral != null){
+          if($reporteGeneral != null && $_SESSION["sRolUsuario"] == "1"){
           ?>
           <div><b>Total servicios:</b> <?php echo $n?>, 
             <b>Total base:</b> S/. <span class="badge badge-info"><?php echo number_format($totalBaseServicios,2)?></span>, 

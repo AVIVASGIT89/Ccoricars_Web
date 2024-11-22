@@ -1,3 +1,23 @@
+//Reporte General, verificar que la diferencia de dias no sea mayor a 30
+$(function(){
+    $("#frmReporteGeneral").submit(function(e) {
+        
+        var fechaDesde = new Date($("#fechaDesde").val());
+        var fechaHasta = new Date($("#fechaHasta").val());
+
+        var diasDiferencia = (fechaHasta - fechaDesde)/(1000*60*60*24);
+
+        if(diasDiferencia > 30){
+
+            alert("La diferencia de fechas No debe ser mayor a 30 dias");
+            return false;
+
+        }
+
+    });
+});
+
+
 //Detalle servicio
 $(document).on("click", ".detalleServicio", function(){
 

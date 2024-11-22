@@ -2,7 +2,7 @@
 -- Host:                         127.0.0.1
 -- Versión del servidor:         10.4.32-MariaDB - mariadb.org binary distribution
 -- SO del servidor:              Win64
--- HeidiSQL Versión:             12.8.0.6908
+-- HeidiSQL Versión:             12.6.0.6765
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -82,6 +82,19 @@ INSERT INTO `modelo_vehiculo` (`ID_MODELO`, `ID_MARCA`, `NOMBRE_MODELO`, `USUARI
 	(10, 2, 'Rush', 'admin', 1),
 	(11, 4, 'Duster', 'admin', 1);
 
+-- Volcando estructura para tabla ccoricars.rol_usuario
+CREATE TABLE IF NOT EXISTS `rol_usuario` (
+  `ID_ROL` int(11) NOT NULL AUTO_INCREMENT,
+  `NOMBRE_ROL` text NOT NULL,
+  `ESTADO_REGISTRO` int(11) NOT NULL DEFAULT 1,
+  PRIMARY KEY (`ID_ROL`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Volcando datos para la tabla ccoricars.rol_usuario: ~2 rows (aproximadamente)
+INSERT INTO `rol_usuario` (`ID_ROL`, `NOMBRE_ROL`, `ESTADO_REGISTRO`) VALUES
+	(1, 'Administrador', 1),
+	(2, 'Operador', 1);
+
 -- Volcando estructura para tabla ccoricars.servicio
 CREATE TABLE IF NOT EXISTS `servicio` (
   `ID_SERVICIO` int(11) NOT NULL AUTO_INCREMENT,
@@ -104,7 +117,7 @@ CREATE TABLE IF NOT EXISTS `servicio` (
   CONSTRAINT `FK_servicio_vehiculo` FOREIGN KEY (`ID_VEHICULO`) REFERENCES `vehiculo` (`ID_VEHICULO`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Volcando datos para la tabla ccoricars.servicio: ~12 rows (aproximadamente)
+-- Volcando datos para la tabla ccoricars.servicio: ~13 rows (aproximadamente)
 INSERT INTO `servicio` (`ID_SERVICIO`, `ID_VEHICULO`, `FECHA_INGRESO`, `USUARIO_INGRESO`, `KM_INGRESO`, `DETALLE_SERVICIO`, `ITEMS`, `TOTAL_BASE`, `TOTAL_UTILIDAD`, `TOTAL_SERVICIO`, `FECHA_SALIDA`, `USUARIO_SALIDA`, `ESTADO_SERVICIO`, `FECHA_REGISTRO`, `ESTADO_REGISTRO`) VALUES
 	(1, 1, '2024-10-28 12:44:33', 'ADMIN', 12566, 'Mantenimiento', 1, 410.00, 85.00, 495.00, NULL, NULL, 1, NULL, 1),
 	(2, 3, '2024-10-28 12:45:13', 'ADMIN', 65983, 'Reparacion', 0, 0.00, 0.00, 0.00, NULL, NULL, 1, NULL, 1),
@@ -134,7 +147,7 @@ CREATE TABLE IF NOT EXISTS `servicio_detalle` (
   CONSTRAINT `FK_servicio_detalle_servicio` FOREIGN KEY (`ID_SERVICIO`) REFERENCES `servicio` (`ID_SERVICIO`)
 ) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Volcando datos para la tabla ccoricars.servicio_detalle: ~33 rows (aproximadamente)
+-- Volcando datos para la tabla ccoricars.servicio_detalle: ~35 rows (aproximadamente)
 INSERT INTO `servicio_detalle` (`ID_DETALLE_SERVICIO`, `ID_SERVICIO`, `ITEM`, `PRECIO_BASE`, `UTILIDAD`, `SUBTOTAL`, `ESTADO_REGISTRO`) VALUES
 	(1, 7, 'servicio', 23.00, 56.00, 0.00, 0),
 	(2, 7, 'servicio', 23.00, 56.00, 0.00, 0),
@@ -175,17 +188,25 @@ INSERT INTO `servicio_detalle` (`ID_DETALLE_SERVICIO`, `ID_SERVICIO`, `ITEM`, `P
 -- Volcando estructura para tabla ccoricars.usuario
 CREATE TABLE IF NOT EXISTS `usuario` (
   `ID_USUARIO` int(11) NOT NULL AUTO_INCREMENT,
+  `ROL_USUARIO` int(11) NOT NULL DEFAULT 0,
   `USUARIO` varchar(50) NOT NULL,
-  `CLAVE` varchar(50) NOT NULL,
+  `CLAVE` varchar(200) NOT NULL,
   `NOMBRE_USUARIO` varchar(200) NOT NULL,
+  `APELLIDO_USUARIO` varchar(200) DEFAULT NULL,
+  `FECHA_REGISTRO` datetime NOT NULL DEFAULT current_timestamp(),
   `ESTADO_REGISTRO` int(11) NOT NULL DEFAULT 1,
   PRIMARY KEY (`ID_USUARIO`),
-  UNIQUE KEY `USUARIO` (`USUARIO`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  UNIQUE KEY `USUARIO` (`USUARIO`),
+  KEY `FK_usuario_rol_usuario` (`ROL_USUARIO`),
+  CONSTRAINT `FK_usuario_rol_usuario` FOREIGN KEY (`ROL_USUARIO`) REFERENCES `rol_usuario` (`ID_ROL`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Volcando datos para la tabla ccoricars.usuario: ~0 rows (aproximadamente)
-INSERT INTO `usuario` (`ID_USUARIO`, `USUARIO`, `CLAVE`, `NOMBRE_USUARIO`, `ESTADO_REGISTRO`) VALUES
-	(1, 'admin', 'admin', 'Administrador', 1);
+-- Volcando datos para la tabla ccoricars.usuario: ~4 rows (aproximadamente)
+INSERT INTO `usuario` (`ID_USUARIO`, `ROL_USUARIO`, `USUARIO`, `CLAVE`, `NOMBRE_USUARIO`, `APELLIDO_USUARIO`, `FECHA_REGISTRO`, `ESTADO_REGISTRO`) VALUES
+	(1, 1, 'admin', '$2a$07$usesomesillystringforegFOeQOp8RK/V8Yn0LZIZwSlh5IkndD.', 'Administrador', '', '2024-11-22 10:18:24', 1),
+	(2, 2, 'user1', '$2a$07$usesomesillystringforeRkC2As/LX6fwr8iiuRn4mkBqSzt5ERC', 'Usuario 1', '', '2024-11-22 10:49:06', 1),
+	(4, 2, 'USER2', '$2a$07$usesomesillystringforeXEZvOxoDDdDlAZJTMRduyA8dkUvvqSS', 'Usuario 2', '', '2024-11-22 11:08:52', 0),
+	(5, 2, 'USER3', '$2a$07$usesomesillystringforevEx13CqubO2No7zDxw9LXrckxZ6kOey', 'User 3', 'User 3', '2024-11-22 11:11:47', 1);
 
 -- Volcando estructura para tabla ccoricars.vehiculo
 CREATE TABLE IF NOT EXISTS `vehiculo` (
@@ -208,7 +229,7 @@ CREATE TABLE IF NOT EXISTS `vehiculo` (
   CONSTRAINT `FK_vehiculo_modelo_vehiculo` FOREIGN KEY (`ID_MODELO`) REFERENCES `modelo_vehiculo` (`ID_MODELO`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Volcando datos para la tabla ccoricars.vehiculo: ~7 rows (aproximadamente)
+-- Volcando datos para la tabla ccoricars.vehiculo: ~8 rows (aproximadamente)
 INSERT INTO `vehiculo` (`ID_VEHICULO`, `PLACA_VEHICULO`, `ID_MARCA`, `ID_MODELO`, `ANIO_FABRICACION`, `NRO_MOTOR`, `COLOR`, `RESPONSABLE`, `FECHA_REGISTRO`, `USUARIO_REGISTRO`, `ESTADO_REGISTRO`) VALUES
 	(1, 'ABC123', 1, 2, 2017, '', '', 'Alexander Vivas', '2024-10-28 10:50:37', 'Admin', 1),
 	(2, 'ERF653', 2, 9, 2019, '', '', NULL, '2024-10-28 10:50:52', 'Admin', 1),

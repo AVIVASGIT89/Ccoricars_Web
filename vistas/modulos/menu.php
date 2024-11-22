@@ -83,6 +83,18 @@
               </li>
             </ul>
           </li>
+
+          <?php if($_SESSION["sRolUsuario"] == "1"){?>
+          <li class="nav-item">
+            <a href="usuarios" class="nav-link">
+              <i class="nav-icon fas fa-user"></i>
+              <p>
+                Usuarios
+              </p>
+            </a>
+          </li>
+          <?php }?>
+
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-chart-pie"></i>
