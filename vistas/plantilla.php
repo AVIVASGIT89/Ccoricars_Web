@@ -30,8 +30,9 @@
   <link rel="stylesheet" href="vistas/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
   <!-- Toastr -->
   <link rel="stylesheet" href="vistas/plugins/toastr/toastr.min.css">
+
   <!-- Estilos personalizados (modifica algunos plugins) -->
-  <link rel="stylesheet" href="vistas/css/estilos-personalizados.css">
+  <link rel="stylesheet" href="vistas/css/estilos-personalizados.css?v=<?php echo(rand()); ?>">
 
 
   <!--*************** Plugins JavaScript ***************-->
@@ -114,6 +115,11 @@
         
     }
 ?>
+
+<!------------------- Muestra animacion de Cargando... ------------------->
+<div id="loading-screen" style="display:none">
+    <img src="vistas/dist/img/spinning-circles.svg">
+</div>
 
 <script src="vistas/js/plantilla.js?v=<?php echo(rand()); ?>"></script>
 <script src="vistas/js/usuario.js?v=<?php echo(rand()); ?>"></script>

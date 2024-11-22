@@ -43,17 +43,17 @@
 
                 echo '<tr>
                         <td>'.($key + 1).'</td>
-                        <td>'.$valor["FECHA_INGRESO"].'</td>
-                        <td>'.$valor["PLACA_VEHICULO"].'</td>
+                        <td align="center">'.$valor["FECHA_INGRESO"].'</td>
+                        <td align="center">'.$valor["PLACA_VEHICULO"].'</td>
                         <td>'.$valor["MARCA_MODELO"].'</td>
                         <td>'.$valor["DETALLE_SERVICIO"].'</td>';
                         
                         if($valor["ESTADO_SERVICIO"] == "1"){
 
-                          echo '<td><span class="badge badge-warning">Pendiente</span></td>';
+                          echo '<td align="center"><span class="badge badge-warning">Pendiente</span></td>';
 
                         }else{
-                          echo '<td><span class="badge badge-success">Finalizado</span></td>';
+                          echo '<td align="center"><span class="badge badge-success">Finalizado</span></td>';
                         }
 
                 echo '</tr>';

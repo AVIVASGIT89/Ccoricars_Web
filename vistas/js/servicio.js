@@ -245,6 +245,10 @@ function registroDetalleServicio(idServicio){
     datos.append("accion", "editarServicio");
     datos.append("idServicio", idServicio);
 
+    //Ejecuta el efecto cargando...
+	var screen = $('#loading-screen');
+	configureLoadingScreen(screen);
+
     $.ajax({
         url: "ajax/servicio.ajax.php",
         method: "POST",

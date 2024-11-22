@@ -45,12 +45,12 @@
 
                 echo '<tr>
                         <td>'.($key + 1).'</td>
-                        <td>'.$valor["PLACA_VEHICULO"].'</td>
+                        <td align="center">'.$valor["PLACA_VEHICULO"].'</td>
                         <td>'.$valor["NOMBRE_MARCA"].'</td>
                         <td>'.$valor["NOMBRE_MODELO"].'</td>
-                        <td>'.$valor["ANIO_FABRICACION"].'</td>
+                        <td align="center">'.$valor["ANIO_FABRICACION"].'</td>
                         <td>'.$valor["RESPONSABLE"].'</td>
-                        <td>'.$valor["FECHA_REGISTRO"].'</td>
+                        <td align="center">'.$valor["FECHA_REGISTRO"].'</td>
                         <td>'.$valor["USUARIO_REGISTRO"].'</td>
                         <td align="center">
                           <div class="btn-group">

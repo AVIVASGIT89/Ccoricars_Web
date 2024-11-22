@@ -106,3 +106,15 @@ function numletras(e) { // 1
 	te = String.fromCharCode(tecla); // 5
 	return patron.test(te); // 6
 }
+
+
+//******************** Funcion para efecto Cargando... ********************
+function configureLoadingScreen(screen){
+    $(document)
+        .ajaxStart(function () {
+            screen.fadeIn();
+        })
+        .ajaxStop(function () {
+            screen.fadeOut();
+        });
+}

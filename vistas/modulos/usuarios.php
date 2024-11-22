@@ -69,11 +69,11 @@
                         <td>'.$valor["NOMBRE_USUARIO"].' '.$valor["APELLIDO_USUARIO"].'</td>
                         <td>'.$valor["USUARIO"].'</td>
                         <td>'.$valor["NOMBRE_ROL"].'</td>
-                        <td>'.$valor["FECHA_REGISTRO"].'</td>';
+                        <td align="center">'.$valor["FECHA_REGISTRO"].'</td>';
                       if($valor["ESTADO_REGISTRO"] == "1"){
 
-                        echo '<td><span class="badge badge-success">Activo</span></td>
-                              <td>
+                        echo '<td align="center"><span class="badge badge-success">Activo</span></td>
+                              <td align="center">
                                 <div class="btn-group">
                                   <button class="btn btn-warning btnEditar" idUsuario="'.$valor["ID_USUARIO"].'"><i class="fas fa-pen"></i></button>
                                   <button class="btn btn-danger btnDesactivar" idUsuario="'.$valor["ID_USUARIO"].'"><i class="fas fa-times"></i></button>
@@ -82,8 +82,8 @@
 
                       }else{
 
-                        echo '<td><span class="badge badge-warning">Inactivo</span></td>
-                              <td>
+                        echo '<td align="center"><span class="badge badge-warning">Inactivo</span></td>
+                              <td align="center">
                                 <div class="btn-group">
                                   <button class="btn btn-warning btnEditar" idUsuario="'.$valor["ID_USUARIO"].'"><i class="fas fa-pen"></i></button>
                                   <button class="btn btn-success btnActivar" idUsuario="'.$valor["ID_USUARIO"].'"><i class="fas fa-check"></i></button>

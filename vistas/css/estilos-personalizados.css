@@ -5,6 +5,13 @@
 
 }
 
+/*Color de cabecera de tabla y centrado*/
+th {
+	text-align: center;
+	color: white;
+	background: #a82424;
+}
+
 
 /*Fondo de login */
 #back {
@@ -41,4 +48,25 @@
 }
 .tabla-registro tr:hover{
 	background-color: rgba(0, 128, 0, 0.10);
+}
+
+
+/*Para efecto Cargando.....*/
+#loading-screen {
+	background-color: rgba(25,25,25,0.7);
+	height: 100%;
+	width: 100%;
+	position: fixed;
+	z-index: 9999;
+	margin-top: 0;
+	top: 0;
+	text-align: center;
+}
+#loading-screen img {
+	width: 100px;
+	height: 100px;
+	position: relative;
+	margin-top: -50px;
+	margin-left: -50px;
+	top: 50%;
 }

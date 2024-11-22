@@ -100,8 +100,8 @@
 
                   echo '<tr>
                           <td>'.$n.'</td>
-                          <td>'.$valor["FECHA_INGRESO"].'</td>
-                          <td>'.$valor["PLACA_VEHICULO"].'</td>';
+                          <td align="center">'.$valor["FECHA_INGRESO"].'</td>
+                          <td align="center">'.$valor["PLACA_VEHICULO"].'</td>';
                           
                           if($valor["ESTADO_SERVICIO"] == "1"){
   
@@ -113,8 +113,8 @@
   
                     echo '<td>'.$valor["MARCA_MODELO"].'</td>
                           <td>'.$valor["DETALLE_SERVICIO"].'</td>
-                          <td>'.number_format($valor["TOTAL_SERVICIO"], 2).'</td>
-                          <td>'.$valor["FECHA_SALIDA"].'</td>
+                          <td align="right">'.number_format($valor["TOTAL_SERVICIO"], 2).'</td>
+                          <td align="center">'.$valor["FECHA_SALIDA"].'</td>
                           <td align="center">
                           <div class="btn-group">
                             <button class="btn btn-info detalleServicio" idServicio="'.$valor["ID_SERVICIO"].'" title="Detalle servicio"><i class="fas fa-eye"></i></button>
